@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'Student/student.dart';
+
 
 void main() {
   runApp(MyApp());
@@ -11,19 +13,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Frontend',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
+        
         primarySwatch: Colors.blue,
-        // This makes the visual density adapt to the platform that you run
-        // the app on. For desktop platforms, the controls will be smaller and
-        // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: MyHomePage(),
@@ -40,7 +31,7 @@ class MyHomePage extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.centerLeft,
           end: Alignment.centerRight,
-          colors: [Color.fromRGBO(2, 0, 36, 1),Color.fromRGBO(255, 0, 241, 1.0)]
+          colors: [Color.fromRGBO(2, 0, 36, 1),Color.fromRGBO(25, 0, 100, 1.0)]
         )
       ),
       
@@ -53,7 +44,7 @@ class MyHomePage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Image.asset(
-                "images/labmanageicon.PNG",
+                "assets/images/labmanageicon.png",
                 width: 300,
                 height: 400,
               ),
@@ -96,6 +87,37 @@ class Form extends StatefulWidget {
 }
 
 class _FormState extends State<Form> {
+
+  _button(text) => RaisedButton(
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => Student()),
+        );
+      },
+      textColor: Colors.black,
+      color: Colors.lightBlue,
+      
+      child: new Text(
+        text,
+        style: TextStyle(fontFamily: 'RobotoMono'),
+      ),
+        
+  );
+
+  _textBox(text) =>TextField(
+    decoration: InputDecoration(
+      fillColor: Colors.white,
+      filled: true,
+      labelText: text,
+      floatingLabelBehavior: FloatingLabelBehavior.never,
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10),
+        borderSide: BorderSide.none
+        )
+    ),
+  );
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -105,32 +127,11 @@ class _FormState extends State<Form> {
          mainAxisAlignment: MainAxisAlignment.center,
          
          children: [
-          TextField(
-            decoration: InputDecoration(
-              fillColor: Colors.white,
-              filled: true,
-              labelText: "Enter username",
-              floatingLabelBehavior: FloatingLabelBehavior.never,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(35),
-                borderSide: BorderSide.none
-                )
-            ),
-          ),
+          _textBox("Enter Username"),
           SizedBox(height: 10),
-          TextField(
-            decoration: InputDecoration(
-              labelText: "Enter Password",
-              floatingLabelBehavior: FloatingLabelBehavior.never,
-              fillColor: Colors.white,
-              filled: true,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(35),
-                borderSide: BorderSide.none
-                )
-            ),
-          ),
-          SizedBox(height: 10)
+          _textBox("Enter Password"),
+          SizedBox(height: 10),
+          _button("Log In"),
          ],
        ),
     );
