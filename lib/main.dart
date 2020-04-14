@@ -1,5 +1,9 @@
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'Student/student.dart';
+import 'package:http/http.dart' as http;
 
 
 void main() {
@@ -18,6 +22,12 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: MyHomePage(),
+      
+      //Please add your routes over here, using your Dart file name as the string.
+
+      routes: <String,WidgetBuilder>{
+        'Students':(BuildContext context)=> new Student(),
+      },
     );
   }
 }
@@ -88,16 +98,34 @@ class Form extends StatefulWidget {
 }
 
 class _FormState extends State<Form> {
+  TextEditingController user = new TextEditingController();
+  TextEditingController pass = new TextEditingController();
+  String msg = '';
+
+  void _login() async {
+    final response = await http.post("https://labheadsbase.000webhostapp.com/login.php", body: {
+      "username": user.text,
+      "password": pass.text
+    });
+
+    var data = json.decode(response.body);
+    print(data);
+    if(data.length == 0){
+      setState(() {
+        msg = "Please enter valid credentials";
+      });
+    }else{
+      Navigator.pushReplacementNamed(context, data[0]);
+    }
+
+  } 
 
   _button(text) => Container(
     width: 400,
     height: 60,
     child: RaisedButton(
       onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => Student()),
-        );
+        _login();
       },
       textColor: Colors.black,
       color: Color.fromRGBO(110, 217, 160, 1),
@@ -118,10 +146,12 @@ class _FormState extends State<Form> {
    )
   );
 
-  _textBox(text) =>Container(
+  _textBox(text,TextEditingController controllerName, bool obscureTextVal) =>Container(
     width: 400,
     child: TextField(
+      controller: controllerName,
       cursorColor: Colors.black12,
+      obscureText: obscureTextVal,
       decoration: InputDecoration(
         // fillColor: Colors.white,
         // filled: true,
@@ -147,11 +177,12 @@ class _FormState extends State<Form> {
          mainAxisAlignment: MainAxisAlignment.center,
          
          children: [
-          _textBox("Enter Username"),
+          _textBox("Enter Username",user,false),
           SizedBox(height: 30),
-          _textBox("Enter Password"),
+          _textBox("Enter Password",pass,true),
           SizedBox(height: 30),
           _button("LOGIN"),
+
          ],
        ),
     );
