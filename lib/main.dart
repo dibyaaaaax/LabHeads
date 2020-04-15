@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'Student/student.dart';
-
+import 'Labs/labManagers.dart';
 
 void main() {
   runApp(MyApp());
