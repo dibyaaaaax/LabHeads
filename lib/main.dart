@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
       //Please add your routes over here, using your Dart file name as the string.
 
       routes: <String,WidgetBuilder>{
-        'Students':(BuildContext context)=> new Student(),
+        'Student':(BuildContext context)=> new Student(),
       },
     );
   }
@@ -102,23 +102,28 @@ class _FormState extends State<Form> {
   TextEditingController pass = new TextEditingController();
   String msg = '';
 
-  void _login() async {
-    final response = await http.post("https://labheadsbase.000webhostapp.com/login.php", body: {
+  Future _login() async {
+    http.Response response = await http.post("http://labheadsbase.000webhostapp.com/login.php",body: {
       "username": user.text,
-      "password": pass.text
+      "password": pass.text,
     });
-
-    var data = json.decode(response.body);
-    print(data);
+    var data = jsonDecode(response.body);
+    
     if(data.length == 0){
       setState(() {
         msg = "Please enter valid credentials";
       });
     }else{
-      Navigator.pushReplacementNamed(context, data[0]);
+      print(data[0]["Type"]);
+      Navigator.pushReplacementNamed(context, data[0]["Type"]);
     }
 
   } 
+
+  // @override
+  // void initState(){
+  //   _login();
+  // }
 
   _button(text) => Container(
     width: 400,
