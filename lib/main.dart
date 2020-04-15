@@ -1,10 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'Student/student.dart';
+import 'LabManagers/labManagers.dart';
 import 'package:http/http.dart' as http;
-
 
 void main() {
   runApp(MyApp());
@@ -27,6 +26,7 @@ class MyApp extends StatelessWidget {
 
       routes: <String,WidgetBuilder>{
         'Student':(BuildContext context)=> new Student(),
+        'LabManagers':(BuildContext context)=> new LabManagers(),
       },
     );
   }
