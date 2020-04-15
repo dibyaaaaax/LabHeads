@@ -3,12 +3,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'Student/student.dart';
-<<<<<<< HEAD
 import 'Labs/labManagers.dart';
-=======
 import 'package:http/http.dart' as http;
-
->>>>>>> d935c7a97a219a6b86b7a01adc2bbe33e3745e89
 
 void main() {
   runApp(MyApp());
