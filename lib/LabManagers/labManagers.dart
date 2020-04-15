@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:web_proj/Labs/addItem.dart';
+import 'package:web_proj/LabManagers/addItem.dart';
 
 class LabManagers extends StatelessWidget {
   // This widget is the root of your application.
@@ -35,25 +35,21 @@ class LabPage extends StatelessWidget {
 
   _button(text, context, goTo) {
     return RaisedButton(
-        onPressed: (){
-          goTo(context);
-        },
-        color: Colors.deepPurple,
-        textColor: Colors.white,
-        child: new Text(text, style: TextStyle(fontFamily: 'RobotoMono')),
-         
-        );
+      onPressed: () {
+        goTo(context);
+      },
+      color: Colors.deepPurple,
+      textColor: Colors.white,
+      child: new Text(text, style: TextStyle(fontFamily: 'RobotoMono')),
+    );
   }
 
-  _logout(context){
+  _logout(context) {
     Navigator.pop(context);
   }
 
-  _navigateToAddItem(context){
-     Navigator.push(
-           context,
-           MaterialPageRoute(builder: (context) => AddItem())
-         );
+  _navigateToAddItem(context) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => AddItem()));
   }
 
   @override
@@ -62,7 +58,9 @@ class LabPage extends StatelessWidget {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.black12,
-        title: new Text("Shannon", style: TextStyle(color: Colors.deepPurple, fontFamily: 'RobotoMono')),
+        title: new Text("Shannon",
+            style:
+                TextStyle(color: Colors.deepPurple, fontFamily: 'RobotoMono')),
         actions: <Widget>[
           Padding(
             padding: EdgeInsets.all(5),
@@ -74,9 +72,19 @@ class LabPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            new Container(
-              padding: EdgeInsets.only(right: 300, left: 300, top: 50, bottom: 50),
-              child: _searchBar("Search Item", context),
+            new Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                new Container(
+                  width: 400,
+                  height: 50,
+                  child: _searchBar("Search Item", context),
+                ),
+                new Container(
+                  padding: EdgeInsets.only(left:30),
+                  child: _button("Search", context, null),
+                )
+              ],
             ),
             new Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -84,20 +92,20 @@ class LabPage extends StatelessWidget {
                 new Container(
                     child: Padding(
                   padding: EdgeInsets.only(
-                      left: 100, right: 100, bottom: 10, top: 50),
+                      left: 100, right: 50, bottom: 10, top: 50),
                   child: _button("Students List", context, null),
                 )),
                 new Container(
                   child: Padding(
                     padding: EdgeInsets.only(
-                        left: 100, right: 100, bottom: 10, top: 50),
+                        left: 50, right: 50, bottom: 10, top: 50),
                     child: _button("Items Borrowed", context, null),
                   ),
                 ),
                 new Container(
                     child: Padding(
                   padding: EdgeInsets.only(
-                      left: 100, right: 100, bottom: 10, top: 50),
+                      left: 50, right: 100, bottom: 10, top: 50),
                   child: _button("Item Suggestions", context, null),
                 )),
               ],
@@ -118,7 +126,7 @@ class LabPage extends StatelessWidget {
         },
         backgroundColor: Colors.deepPurple,
         foregroundColor: Colors.black,
-        tooltip: 'Increment Counter',
+        tooltip: 'Add Item OR Update Quantity',
         child: Icon(Icons.add),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
