@@ -17,7 +17,7 @@ samples, guidance on mobile development, and a full API reference.
 
 ## MySQL Connectivity
 
-The database is online so that all of us can use it and removes the redundant work that each of us would do.
+The database is online so that all of us can use it and removes the redundant work that each of us would do. Once you do git pull, run "flutter pub get" into your project directory.
 
 Site [(phpMyAdmin, Database)](https://databases.000webhost.com/index.php)
 - UserName: id13273953_labheads5
