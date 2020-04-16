@@ -41,8 +41,13 @@ Here are some sites that you can use for your reference:
 - https://flutter-examples.com/flutter-insert-text-input-textfield-data-to-mysql-server/
 - https://www.w3schools.com/php/php_mysql_select.asp
 
-Also, currently you can use the following to login (Only for Student)
+Also, currently you can use the following to login 
+(for a Student)
 - Username: ST18001  
-- password: Mohnish  
+- password: Mohnish
+
+(for a Club)
+- Username: CL100  
+- password: ShannonLab
 
  I will add others later, If you want, you can add your own user details by going to database and adding values to UserDetails table.
