@@ -1,4 +1,9 @@
+import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'StatusScreen.dart';
+
 
 class RequestBuy extends StatelessWidget {
   
@@ -87,9 +92,42 @@ class Form extends StatefulWidget {
 }
 
 class _FormState extends State<Form> {
-  _inputBox(context, text) => Container(
+
+  TextEditingController itemName = new TextEditingController();
+  TextEditingController quantity = new TextEditingController();
+  TextEditingController labID = new TextEditingController();
+  TextEditingController cost = new TextEditingController();
+  var msg = "";
+
+  Future _executionStatus(result, context){
+    Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => StatusScreen(text:result),
+                  ),
+                );
+  }
+
+  Future _submit(context) async {
+      http.Response response = await http.post("http://labheadsbase.000webhostapp.com/buyRequest.php",
+      body: {
+        "item": itemName.text,
+        "quantity": quantity.text,
+        "labID": labID.text,
+        "cost": cost.text,
+      });
+
+      var data = response.body;
+      _executionStatus(data, context);
+
+  }
+
+
+
+  _inputBox(context, text, TextEditingController controllerName) => Container(
         width: MediaQuery.of(context).size.width*0.25,
         child:   TextFormField(
+        controller: controllerName,
         decoration: InputDecoration(
           labelText: text,
           border: new OutlineInputBorder(
@@ -99,8 +137,8 @@ class _FormState extends State<Form> {
       ),
 );
 
-_button(text) => RaisedButton(
-      onPressed: (){},
+_button(text, context) => RaisedButton(
+      onPressed: (){_submit(context);},
       textColor: Colors.white,
       color: Colors.deepPurple,
       
@@ -130,7 +168,7 @@ _button(text) => RaisedButton(
                 style: TextStyle(color: Colors.blueAccent, fontSize: 16.0),
                 ),
                 SizedBox(width: 30),
-                _inputBox(context, "Item Name"),
+                _inputBox(context, "Item Name", itemName),
               ]
             ),
           ),
@@ -141,7 +179,7 @@ _button(text) => RaisedButton(
                 Text("Quantity",
                 style: TextStyle(color: Colors.blueAccent, fontSize: 16.0),),
                 SizedBox(width: 40),
-                _inputBox(context, "Quantity"),
+                _inputBox(context, "Quantity", quantity),
               ]
             ),
           ),
@@ -152,18 +190,7 @@ _button(text) => RaisedButton(
                 Text("Lab ID",
                 style: TextStyle(color: Colors.blueAccent, fontSize: 16.0),),
                 SizedBox(width: 65),
-                _inputBox(context, "Lab ID"),
-              ]
-            ),
-          ),
-          SizedBox(height: 10),
-          Container(
-            child: Row(
-              children:[
-                Text("Department ID",
-                style: TextStyle(color: Colors.blueAccent, fontSize: 16.0),),
-                SizedBox(width: 25),
-                _inputBox(context, "Department ID"),
+                _inputBox(context, "Lab ID", labID),
               ]
             ),
           ),
@@ -174,12 +201,12 @@ _button(text) => RaisedButton(
                 Text("Cost",
                 style: TextStyle(color: Colors.blueAccent, fontSize: 16.0),),
                 SizedBox(width: 65),
-                _inputBox(context, "Expected Budget for total quantity"),
+                _inputBox(context, "Expected Budget for total quantity", cost),
               ]
             ),
           ),
           SizedBox(height: 10),
-          _button("Submit Report")
+          _button("Submit Report", context)
          ],
        ),
     );

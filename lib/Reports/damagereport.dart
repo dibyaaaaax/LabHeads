@@ -1,4 +1,8 @@
+import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'StatusScreen.dart';
 
 class DamageReport extends StatelessWidget {
   
@@ -17,6 +21,7 @@ class DamageReport extends StatelessWidget {
 }
 
 class ReportForm extends StatelessWidget {
+
   _button(text) => RaisedButton(
       onPressed: (){},
       textColor: Colors.white,
@@ -87,9 +92,44 @@ class Form extends StatefulWidget {
 }
 
 class _FormState extends State<Form> {
-  _inputBox(context, text) => Container(
+
+TextEditingController itemID = new TextEditingController();
+TextEditingController condition = new TextEditingController();
+TextEditingController labID = new TextEditingController();
+TextEditingController date = new TextEditingController();
+var msg = "";
+
+Future _executionStatus(result, context){
+  Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => StatusScreen(text:result),
+                ),
+              );
+}
+
+Future _submit(context) async {
+  print(itemID.text);
+  print(condition.text);
+  print(labID.text);
+  print(date.text);
+    http.Response response = await http.post("http://labheadsbase.000webhostapp.com/damageReport.php",
+    body: {
+      "itemID": itemID.text,
+      "condition": condition.text,
+      "labID": labID.text,
+      "date": date.text,
+    });
+
+    var data = response.body;
+    _executionStatus(data, context);
+
+  }
+
+  _inputBox(context, text, TextEditingController controllerName) => Container(
         width: MediaQuery.of(context).size.width*0.25,
         child:   TextFormField(
+        controller: controllerName,
         decoration: InputDecoration(
           labelText: text,
           border: new OutlineInputBorder(
@@ -99,8 +139,10 @@ class _FormState extends State<Form> {
       ),
 );
 
-_button(text) => RaisedButton(
-      onPressed: (){},
+_button(text, context) => RaisedButton(
+      onPressed: (){
+        _submit(context);
+      },
       textColor: Colors.white,
       color: Colors.deepPurple,
       
@@ -130,7 +172,7 @@ _button(text) => RaisedButton(
                 style: TextStyle(color: Colors.blueAccent, fontSize: 16.0),
                 ),
                 SizedBox(width: 45),
-                _inputBox(context, "Item ID"),
+                _inputBox(context, "Item ID", itemID),
               ]
             ),
           ),
@@ -141,7 +183,7 @@ _button(text) => RaisedButton(
                 Text("Condition",
                 style: TextStyle(color: Colors.blueAccent, fontSize: 16.0),),
                 SizedBox(width: 30),
-                _inputBox(context, "What is the condition of the item?"),
+                _inputBox(context, "What is the condition of the item?", condition),
               ]
             ),
           ),
@@ -152,7 +194,7 @@ _button(text) => RaisedButton(
                 Text("Lab ID",
                 style: TextStyle(color: Colors.blueAccent, fontSize: 16.0),),
                 SizedBox(width: 55),
-                _inputBox(context, "Lab ID"),
+                _inputBox(context, "Lab ID", labID),
               ]
             ),
           ),
@@ -163,12 +205,12 @@ _button(text) => RaisedButton(
                 Text("Date",
                 style: TextStyle(color: Colors.blueAccent, fontSize: 16.0),),
                 SizedBox(width: 65),
-                _inputBox(context, "Enter the date"),
+                _inputBox(context, "Enter the date", date),
               ]
             ),
           ),
           SizedBox(height: 10),
-          _button("Submit Report")
+          _button("Submit Report", context)
          ],
        ),
     );
