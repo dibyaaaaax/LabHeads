@@ -3,7 +3,7 @@ import 'package:web_proj/Reports/damagereport.dart';
 import 'package:web_proj/Reports/requestBuy.dart';
 import 'package:http/http.dart' as http;
 
-class Student extends StatelessWidget {
+/*class Student extends StatelessWidget {
   
   // This widget is the root of your application.
   @override
@@ -17,9 +17,9 @@ class Student extends StatelessWidget {
       home: StuSearch(),
     );
   }
-}
+}  Removed for navigation  */ 
 
-class StuSearch extends StatelessWidget{
+class Student extends StatelessWidget{
 
   Future navigate_back(context) async{
   Navigator.pop(context);

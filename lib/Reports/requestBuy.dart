@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'StatusScreen.dart';
 
 
-class RequestBuy extends StatelessWidget {
+/*class RequestBuy extends StatelessWidget {
   
   // This widget is the root of your application.
   @override
@@ -19,9 +19,9 @@ class RequestBuy extends StatelessWidget {
       home: RequestForm(),
     );
   }
-}
+}*/
 
-class RequestForm extends StatelessWidget {
+class RequestBuy extends StatelessWidget {
   _button(text) => RaisedButton(
       onPressed: (){},
       textColor: Colors.white,

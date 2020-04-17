@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class AddItem extends StatelessWidget {
+/*class AddItem extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -13,9 +13,9 @@ class AddItem extends StatelessWidget {
       home: NewItems(),
     );
   }
-}
+} REMOVED FOR NAVIGATION */
 
-class NewItems extends StatelessWidget {
+class AddItem extends StatelessWidget {
   _button(text, context, goTo) {
     return RaisedButton(
       onPressed: () {

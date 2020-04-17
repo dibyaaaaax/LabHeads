@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:web_proj/LabManagers/addItem.dart';
 
-class LabManagers extends StatelessWidget {
+/*class LabManagers extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -14,9 +14,10 @@ class LabManagers extends StatelessWidget {
       home: LabPage(),
     );
   }
-}
+} REMOVED FOR NAVIGATION*/
 
-class LabPage extends StatelessWidget {
+class LabManagers extends StatelessWidget {
+
   _searchBar(text, context) {
     return TextFormField(
       decoration: InputDecoration(
