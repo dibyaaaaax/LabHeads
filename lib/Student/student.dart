@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:web_proj/Reports/damagereport.dart';
 import 'package:web_proj/Reports/requestBuy.dart';
+import 'issuedItems.dart';
 import 'package:http/http.dart' as http;
 
 /*class Student extends StatelessWidget {
@@ -43,6 +44,11 @@ dummy_func(){
         
   );
 
+  Future navigate_issuedItems(context) async{
+  Navigator.push(context, 
+  MaterialPageRoute(builder: (context) => IssuedItems()));
+}
+
   _welcomeMsg(name) => Text(
       "Welcome, " + name,
       style: TextStyle(
@@ -77,7 +83,7 @@ dummy_func(){
                       SizedBox(width: MediaQuery.of(context).size.width*0.5,),
                       Container(
                         child: Row(children: <Widget>[
-                          _button("Issued Items", dummy_func, context),
+                          _button("Issued Items", navigate_issuedItems, context),
                           SizedBox(width: 20.0,),
                           _button("log Out", navigate_back, context)
                         ],)
@@ -109,19 +115,6 @@ var _departments = ["Department", "CSE", "ECE", "HCI"];
 var _labs = ["Lab", "Midas", "Shannon", "Tav"];
 var current_dep = ["Department"];
 var current_lab = ["Lab"];
-
-
-Future _issuedItems(context) async {
-    print("asdd");
-      http.Response response = await http.post("http://labheadsbase.000webhostapp.com/issuedItems.php",
-      body: {
-        "ID": 2017002 
-      });
-
-      var data = response.body;
-      print(data);
-
-  }
 
 
 //InputNameText field
@@ -165,6 +158,8 @@ Future navigate_Report(context) async{
   Navigator.push(context, 
   MaterialPageRoute(builder: (context) => DamageReport()));
 }
+
+
 
 Future navigate_Request(context) async{
   Navigator.push(context, 
