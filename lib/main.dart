@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'Student/student.dart';
 import 'LabManagers/labManagers.dart';
+import 'Clubs/clubs.dart';
 import 'package:http/http.dart' as http;
 
 void main() {
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Frontend',
+      title: 'Inventory Management System',
       theme: ThemeData(
         
         primarySwatch: Colors.blue,
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
       routes: <String,WidgetBuilder>{
         'Student':(BuildContext context)=> new Student(),
         'LabManagers':(BuildContext context)=> new LabManagers(),
+        'Clubs':(BuildContext context)=> new Clubs(),
       },
     );
   }
@@ -47,7 +49,22 @@ class MyHomePage extends StatelessWidget {
       color: Color.fromRGBO(42, 54, 63, 1),
     child: Material(
       type: MaterialType.transparency,
-      child: Row(
+      child:
+      Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          RichText(
+            text: TextSpan(
+              style: DefaultTextStyle.of(context).style,
+              children: <TextSpan>[
+                TextSpan(
+                  text: 'Lab Management System\n',
+              style: TextStyle(color: Color.fromRGBO(110, 217, 160, 1)),
+                ),
+            ],
+            ),
+          ),
+          Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Column( 
@@ -74,8 +91,8 @@ class MyHomePage extends StatelessWidget {
           VerticalDivider(
             color: Color.fromRGBO(237, 237, 237, 0.5),
             thickness: 1,
-            indent: 200,
-            endIndent: 200,
+            indent: 100,
+            endIndent: 100,
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -85,6 +102,9 @@ class MyHomePage extends StatelessWidget {
           )
         ]
     ),
+        ],
+      ),
+       
     )
     );
   }
@@ -111,7 +131,10 @@ class _FormState extends State<Form> {
     
     if(data.length == 0){
       setState(() {
-        msg = "Please enter valid credentials";
+        
+        msg = "Wrong Username / Password";
+        
+        //print("wrong credentials");
       });
     }else{
       print(data[0]["Type"]);
@@ -182,6 +205,8 @@ class _FormState extends State<Form> {
          mainAxisAlignment: MainAxisAlignment.center,
          
          children: [
+           Text(msg,style: TextStyle(fontSize: 18, color: Color(0xffFF1744)),),
+           SizedBox(height: 30),
           _textBox("Enter Username",user,false),
           SizedBox(height: 30),
           _textBox("Enter Password",pass,true),

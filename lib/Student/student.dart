@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:web_proj/Reports/damagereport.dart';
 import 'package:web_proj/Reports/requestBuy.dart';
-
+import 'package:http/http.dart' as http;
 
 /*class Student extends StatelessWidget {
   
@@ -109,6 +109,19 @@ var _departments = ["Department", "CSE", "ECE", "HCI"];
 var _labs = ["Lab", "Midas", "Shannon", "Tav"];
 var current_dep = ["Department"];
 var current_lab = ["Lab"];
+
+
+Future _issuedItems(context) async {
+    print("asdd");
+      http.Response response = await http.post("http://labheadsbase.000webhostapp.com/issuedItems.php",
+      body: {
+        "ID": 2017002 
+      });
+
+      var data = response.body;
+      print(data);
+
+  }
 
 
 //InputNameText field
