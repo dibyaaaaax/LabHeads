@@ -3,7 +3,7 @@ import 'package:web_proj/Reports/damagereport.dart';
 import 'package:web_proj/Reports/requestBuy.dart';
 
 
-class Clubs extends StatelessWidget {
+/*class Clubs extends StatelessWidget {
   
   // This widget is the root of your application.
   @override
@@ -17,9 +17,9 @@ class Clubs extends StatelessWidget {
       home: Clubpage(),
     );
   }
-}
+}*/
 
-class Clubpage extends StatelessWidget{
+class Clubs extends StatelessWidget{
 
   Future navigate_back(context) async{
   Navigator.pop(context);
