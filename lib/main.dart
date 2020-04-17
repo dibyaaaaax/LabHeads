@@ -115,7 +115,7 @@ class _FormState extends State<Form> {
       });
     }else{
       print(data[0]["Type"]);
-      Navigator.pushReplacementNamed(context, data[0]["Type"]);
+      Navigator.pushNamed(context, data[0]["Type"]);
     }
 
   } 
