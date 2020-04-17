@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class StatusScreen extends StatelessWidget {
+/*class StatusScreen extends StatelessWidget {
 
   var text;
   StatusScreen({Key key, @required this.text}) : super(key: key);
@@ -17,11 +17,11 @@ class StatusScreen extends StatelessWidget {
       home: Status(text:text),
     );
   }
-}
+}*/
 
-class Status extends StatelessWidget {
+class StatusScreen extends StatelessWidget {
   var text;
-  Status({Key key, @required this.text}) : super(key: key);
+  StatusScreen({Key key, @required this.text}) : super(key: key);
 
   _button(text, context) => RaisedButton(
       onPressed: (){Navigator.pop(context);},

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'StatusScreen.dart';
 
-class DamageReport extends StatelessWidget {
+/*class DamageReport extends StatelessWidget {
   
   // This widget is the root of your application.
   @override
@@ -18,9 +18,9 @@ class DamageReport extends StatelessWidget {
       home: ReportForm(),
     );
   }
-}
+}*/
 
-class ReportForm extends StatelessWidget {
+class DamageReport extends StatelessWidget {
 
   _button(text) => RaisedButton(
       onPressed: (){},
