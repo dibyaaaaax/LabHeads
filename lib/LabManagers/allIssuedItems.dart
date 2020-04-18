@@ -50,15 +50,6 @@ class _AllIssuedItemsState extends State<AllIssuedItems> {
   }
 
   _parseDataIntoDataTable(var itemName) {
-    itemName.forEach((value) {
-      if (value.length == 0) {
-        print(value);
-      } else {
-        print(value.length);
-      }
-      print(value);
-    });
-
     return DataTable(
       columns: [
         DataColumn(label: Text("ID"), numeric: true),
