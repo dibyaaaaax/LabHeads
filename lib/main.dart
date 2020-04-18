@@ -6,6 +6,8 @@ import 'Student/issuedItems.dart';
 import 'LabManagers/labManagers.dart';
 import 'Clubs/clubs.dart';
 import 'package:http/http.dart' as http;
+import 'LabManagers/allIssuedItems.dart';
+import 'Professor/professor.dart';
 
 void main() {
   runApp(MyApp());
@@ -28,8 +30,9 @@ class MyApp extends StatelessWidget {
 
       routes: <String,WidgetBuilder>{
         'Student':(BuildContext context)=> new Student(),
-        'LabManagers':(BuildContext context)=> new LabManagers(),
+        'LabManagers':(BuildContext context)=> new LabManagers(name: "Shannon",),
         'Clubs':(BuildContext context)=> new Clubs(),
+        'Professor':(BuildContext context)=> new Professor(),
       },
     );
   }
