@@ -51,65 +51,52 @@ class MyHomePage extends StatelessWidget {
       //   )
       // ),
       color: Color.fromRGBO(42, 54, 63, 1),
-    child: Material(
-      type: MaterialType.transparency,
-      child:
-      Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          RichText(
-            text: TextSpan(
-              style: DefaultTextStyle.of(context).style,
-              children: <TextSpan>[
-                TextSpan(
-                  text: 'Lab Management System\n',
-              style: TextStyle(color: Color.fromRGBO(110, 217, 160, 1)),
-                ),
-            ],
-            ),
-          ),
-          Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Column( 
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Image.asset(
-                "assets/images/labmanageicon.png",
-                width: 250,
-                height: 300,
+      child: Material(
+        type: MaterialType.transparency,
+        child : Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            RichText(
+              text: TextSpan(
+                style: DefaultTextStyle.of(context).style,
+                children: <TextSpan>[
+                  TextSpan(
+                    text: 'Lab Management System\n',
+                style: TextStyle(color: Color.fromRGBO(110, 217, 160, 1)),
+                  ),
+              ],
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+              Column( 
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  SizedBox(width:340),
                   Image.asset(
-                    "images/head.png",
-                    width: 150,
-                    height: 200
-                    )
-            ],
-          ),
+                    "images/Labhead.png",
+                    width: 250,
+                    height: 300,
+                    ),
+                  ]
+                ),
+                VerticalDivider(
+                  color: Color.fromRGBO(237, 237, 237, 0.5),
+                  thickness: 1,
+                  indent: 100,
+                  endIndent: 100,
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Form()
+                  ],
+                )
+              ]
+            ),
           ]
-          ),
-          VerticalDivider(
-            color: Color.fromRGBO(237, 237, 237, 0.5),
-            thickness: 1,
-            indent: 100,
-            endIndent: 100,
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-             Form()
-            ],
-          )
-        ]
-    ),
-        ],
+        )
       ),
-       
-    )
     );
   }
 }
