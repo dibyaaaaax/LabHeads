@@ -1,22 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:web_proj/LabManagers/addItem.dart';
-
-/*class LabManagers extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Labs',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: LabPage(),
-    );
-  }
-} REMOVED FOR NAVIGATION*/
+import 'package:web_proj/LabManagers/allIssuedItems.dart';
 
 class LabManagers extends StatelessWidget {
+
+  final String name;
+  LabManagers({Key key, @required this.name}) : super(key: key);
+
+
 
   _searchBar(text, context) {
     return TextFormField(
@@ -51,6 +42,10 @@ class LabManagers extends StatelessWidget {
 
   _navigateToAddItem(context) {
     Navigator.push(context, MaterialPageRoute(builder: (context) => AddItem()));
+  }
+
+  _navigateToIssuedItems(context) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => AllIssuedItems()));
   }
 
   @override
@@ -94,7 +89,7 @@ class LabManagers extends StatelessWidget {
                     child: Padding(
                   padding: EdgeInsets.only(
                       left: 100, right: 50, bottom: 10, top: 50),
-                  child: _button("Students List", context, null),
+                  child: _button("Issued Items", context, _navigateToIssuedItems),
                 )),
                 new Container(
                   child: Padding(
@@ -134,3 +129,4 @@ class LabManagers extends StatelessWidget {
     );
   }
 }
+
