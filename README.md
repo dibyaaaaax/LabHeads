@@ -50,4 +50,8 @@ Also, currently you can use the following to login
 - Username: CL100  
 - password: ShannonLab
 
+(for a Lab)
+- Username: LM100  
+- password: Shannon
+
  I will add others later, If you want, you can add your own user details by going to database and adding values to UserDetails table.
