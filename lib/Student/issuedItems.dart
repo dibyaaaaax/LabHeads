@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:web_proj/LabManagers/addItem.dart';
+
 // class IssuedItems extends StatelessWidget {
   
 //   // This widget is the root of your application.
@@ -31,41 +33,60 @@ class ItemsData{
               this.renewDate,
               this.labName,
               this.quantity});
+  factory ItemsData.fromJson(Map<String, dynamic> json){
+    return ItemsData(
+      name: json['itemName'],
+      issuedDate: json["issuedDate"],
+      renewDate: json["renewalDate"],
+      labName: json["Name"],
+      quantity: json["Quantity"]
+    );
+  }
 
-   Future _getSQLData() async{
+
+
+// static List<ItemsData> getItems() {
+//     return <ItemsData>[
+//       ItemsData(name:"kit", 
+//                 issuedDate:"2018-10-10",
+//                 renewDate: "2018-12-12",
+//                 labName: "Shannon",
+//                 quantity: "23"),
+//       ItemsData(name:"arduino", 
+//                 issuedDate:"2018-10-10",
+//                 renewDate: "2018-12-12",
+//                 labName: "Midas",
+//                 quantity: "2"),
+//     ];
+
+//     // var list = _getSQLData();
+//     // print(list);
+
+//   }
+
+}
+
+class Services{
+     static Future<List<ItemsData>> _getSQLData() async{
    print("heree");
     http.Response response = await http.post("http://labheadsbase.000webhostapp.com/issuedItems.php",
     body: {
       "ID": '2017002',
     });
-    var data = await jsonDecode(response.body);
-    data.map((item) => ItemsData(name:item.ItemName,
-                                  issuedDate: item.issuedDate,
-                                  renewDate: item.renewalDate,
-                                  labName: item.Name,
-                                  quantity: item.Quantity));
-    return data;
+    print("1");
+    List<ItemsData> list = _parseResponse(response.body);
+    print("2");
+    print(list.length);
+    print(list[0].labName);
+    return list;
 
  }
-static List<ItemsData> getItems() {
-    return <ItemsData>[
-      ItemsData(name:"kit", 
-                issuedDate:"2018-10-10",
-                renewDate: "2018-12-12",
-                labName: "Shannon",
-                quantity: "23"),
-      ItemsData(name:"arduino", 
-                issuedDate:"2018-10-10",
-                renewDate: "2018-12-12",
-                labName: "Midas",
-                quantity: "2"),
-    ];
 
-    // var list = _getSQLData();
-    // print(list);
-
+  static List<ItemsData> _parseResponse(String response){
+    final parsed = json.decode(response).cast<Map<String, dynamic>>();
+    return parsed.map<ItemsData>(
+      (json) => ItemsData.fromJson(json)).toList();
   }
-
 }
 
 
@@ -142,8 +163,25 @@ class Table extends StatefulWidget {
 
 class _TableState extends State<Table> {
   var msg = "";
-  List<ItemsData> items = ItemsData.getItems();
+  List<ItemsData> items; // = ItemsData._getSQLData();
+  void initState(){
+    print("plssssssssssssssssss");
+    _getItems();
+    print(msg);
+    print(items.length);
 
+  }
+  _getItems(){
+    Services._getSQLData().then((data){
+      setState(() {
+        print(data[0].labName);
+        items = data;
+        msg = "doneee";
+        print(items.length);
+      });
+      print(items.length);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -154,7 +192,7 @@ class _TableState extends State<Table> {
                   DataColumn(label: Text('Item')),
                   DataColumn(label: Text('IssuedOn')),
                   DataColumn(label: Text('RenewalDate')),
-                  DataColumn(label: Text('Lab Name')),
+                  DataColumn(label: Text('LabName')),
                   DataColumn(label: Text('Quantity')),
                 ],
                 rows: items.map(
