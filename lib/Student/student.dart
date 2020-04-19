@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:web_proj/Reports/damagereport.dart';
 import 'package:web_proj/Reports/requestBuy.dart';
-import 'issuedItems.dart';
+import 'package:web_proj/LabManagers/allIssuedItems.dart';
 import 'package:http/http.dart' as http;
+import 'package:web_proj/main.dart';
+
 
 /*class Student extends StatelessWidget {
   
@@ -21,6 +23,11 @@ import 'package:http/http.dart' as http;
 }  Removed for navigation  */ 
 
 class Student extends StatelessWidget{
+
+   final User user;
+
+  // In the constructor, require a Todo.
+  Student({Key key, @required this.user}) : super(key: key);
 
   Future navigate_back(context) async{
   Navigator.pop(context);
@@ -46,11 +53,11 @@ dummy_func(){
 
   Future navigate_issuedItems(context) async{
   Navigator.push(context, 
-  MaterialPageRoute(builder: (context) => IssuedItems()));
+  MaterialPageRoute(builder: (context) => AllIssuedItems(user: user)));
 }
 
   _welcomeMsg(name) => Text(
-      "Welcome, " + name,
+      "Welcome, " + user.name,
       style: TextStyle(
         color: Colors.deepPurpleAccent,
         fontSize: 30.0,

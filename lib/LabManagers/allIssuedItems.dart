@@ -2,23 +2,33 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import'package:web_proj/main.dart';
 
 class AllIssuedItems extends StatefulWidget {
 
-  static String labName;
+  final User user;
   //AllIssuedItems({Key key, @required labName}) : super(key: key);
 
+  AllIssuedItems({Key key, @required this.user}) : super(key: key);
+
+  Future navigate_back(context) async{
+  Navigator.pop(context);
+}
+
   @override
-  _AllIssuedItemsState createState() => _AllIssuedItemsState();
+  _AllIssuedItemsState createState() => _AllIssuedItemsState(user);
 }
 
 class _AllIssuedItemsState extends State<AllIssuedItems> {
+  final User user;
+  _AllIssuedItemsState(this.user);
 
-  String _labName = "Shannon";
-  
   Future _issuedData() async {
     var response = await http
-        .post("http://labheadsbase.000webhostapp.com/studentsIssuedList.php");
+        .post("http://labheadsbase.000webhostapp.com/studentsIssuedList.php",
+        body: {
+      "ID": user.id,
+        });
 
     var data = await jsonDecode(response.body);
     return data;
@@ -69,7 +79,7 @@ class _AllIssuedItemsState extends State<AllIssuedItems> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black12,
-        title: new Text("Issued Items for "+_labName, style: TextStyle(color: Colors.deepPurple, fontFamily: "RobotoMono"),)
+        title: new Text("Issued Items for "+ user.name, style: TextStyle(color: Colors.deepPurple, fontFamily: "RobotoMono"),)
       ),
       body: Center(
         child: FutureBuilder(

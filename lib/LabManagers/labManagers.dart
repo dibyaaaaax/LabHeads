@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:web_proj/LabManagers/addItem.dart';
 import 'package:web_proj/LabManagers/allIssuedItems.dart';
+import 'package:web_proj/main.dart';
 
 class LabManagers extends StatelessWidget {
 
-  final String name;
-  LabManagers({Key key, @required this.name}) : super(key: key);
+  // final String name;
+  // LabManagers({Key key, @required this.name}) : super(key: key);
+  final User user;
+
+  // In the constructor, require a Todo.
+  LabManagers({Key key, @required this.user}) : super(key: key);
 
 
 
@@ -45,7 +50,7 @@ class LabManagers extends StatelessWidget {
   }
 
   _navigateToIssuedItems(context) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => AllIssuedItems()));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => AllIssuedItems(user: user)));
   }
 
   @override

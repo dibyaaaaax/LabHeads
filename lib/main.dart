@@ -28,12 +28,13 @@ class MyApp extends StatelessWidget {
       
       //Please add your routes over here, using your Dart file name as the string.
 
-      routes: <String,WidgetBuilder>{
-        'Student':(BuildContext context)=> new Student(),
-        'LabManagers':(BuildContext context)=> new LabManagers(name: "Shannon",),
-        'Clubs':(BuildContext context)=> new Clubs(),
-        'Professor':(BuildContext context)=> new Professor(),
-      },
+      // routes: <String,WidgetBuilder>{
+      //   'Student':(BuildContext context)=> new Student(),
+      //   'LabManagers':(BuildContext context)=> new LabManagers(name: "Shannon",),
+      //   'Clubs':(BuildContext context)=> new Clubs(),
+      //   'Professor':(BuildContext context)=> new Professor(),
+      // },
+      onGenerateRoute: RouteGenerator.generateRoute,
     );
   }
 }
@@ -113,6 +114,7 @@ class _FormState extends State<Form> {
   TextEditingController pass = new TextEditingController();
   String msg = '';
 
+
   Future _login() async {
     http.Response response = await http.post("http://labheadsbase.000webhostapp.com/login.php",body: {
       "username": user.text,
@@ -128,8 +130,9 @@ class _FormState extends State<Form> {
         //print("wrong credentials");
       });
     }else{
-      print(data[0]["Type"]);
-      Navigator.pushNamed(context, data[0]["Type"]);
+      User userObj = User(user.text, "NAME");
+      print(data);
+      Navigator.of(context).pushNamed(data[0]["Type"], arguments: userObj);
     }
 
   } 
@@ -207,5 +210,50 @@ class _FormState extends State<Form> {
          ],
        ),
     );
+  }
+}
+
+
+class User{
+  var name;
+  var id;
+
+  User(this.id, this.name);
+}
+
+class RouteGenerator{
+  static Route<dynamic> generateRoute(RouteSettings settings){
+    final args = settings.arguments;
+    switch(settings.name){
+      case "Student":
+        if (args is User){
+          return MaterialPageRoute(
+            builder: (_) => Student(user: args),
+            );
+        }
+        break;
+      case "LabManagers":
+        if (args is User){
+          return MaterialPageRoute(
+            builder: (_) => LabManagers(user: args),
+            );
+        }
+        break;
+        case "Clubs":
+          //if (args is User){
+            return MaterialPageRoute(
+              builder: (_) => Clubs(),
+              );
+          //}
+          break;
+        case "LabManagers":
+          //if (args is User){
+            return MaterialPageRoute(
+              builder: (_) => Professor(),
+              );
+          //}
+          break;
+    }
+
   }
 }
