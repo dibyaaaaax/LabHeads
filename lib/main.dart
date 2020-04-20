@@ -131,6 +131,7 @@ class _FormState extends State<Form> {
       });
     }else{
       User userObj = User(data[0]["UserID"], data[0]["Name"]);
+
       Navigator.of(context).pushNamed(data[0]["Type"], arguments: userObj);
     }
 

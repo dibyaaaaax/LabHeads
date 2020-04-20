@@ -4,29 +4,29 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import'package:web_proj/main.dart';
 
-class AllIssuedItems extends StatefulWidget {
+class AllBorrowedItems extends StatefulWidget {
 
   final User user;
   //AllIssuedItems({Key key, @required labName}) : super(key: key);
 
-  AllIssuedItems({Key key, @required this.user}) : super(key: key);
+  AllBorrowedItems({Key key, @required this.user}) : super(key: key);
 
   Future navigate_back(context) async{
   Navigator.pop(context);
 }
 
   @override
-  _AllIssuedItemsState createState() => _AllIssuedItemsState(user);
+  _AllBorrowedItemsState createState() => _AllBorrowedItemsState(user);
 }
 
-class _AllIssuedItemsState extends State<AllIssuedItems> {
+class _AllBorrowedItemsState extends State<AllBorrowedItems> {
   final User user;
-  _AllIssuedItemsState(this.user);
+  _AllBorrowedItemsState(this.user);
 
   Future _issuedData() async {
     print(user.id);
     var response = await http
-        .post("http://labheadsbase.000webhostapp.com/studentsIssuedList.php",
+        .post("http://labheadsbase.000webhostapp.com/itemsBorrowed.php",
         body: {
       "ID": user.id,
         });
@@ -35,26 +35,14 @@ class _AllIssuedItemsState extends State<AllIssuedItems> {
     return data;
   }
 
-  String _changeType(text) {
-    if (text == 'S') {
-      return "Student";
-    } else if (text == 'L') {
-      return "Lab";
-    } else {
-      return "Club";
-    }
-  }
-
   DataRow _getDataRow(result) {
     return DataRow(
       cells: <DataCell>[
-        DataCell(Text(result["IssuedToID"])),
-        DataCell(Text(result["(CASE WHEN IssuedItems.IssuedTo='S' THEN Students.StudentName WHEN IssuedItems.IssuedTo='L' THEN Labs.Name WHEN IssuedItems.IssuedTo='C' THEN Clubs.ClubName END)"])),
+        DataCell(Text(result["Name"])),
         DataCell(Text(result["ItemName"])),
+        DataCell(Text(result["Quantity"])),
         DataCell(Text(result["issuedDate"])),
         DataCell(Text(result["renewalDate"])),
-        DataCell(Text(result["Quantity"])),
-        DataCell(Text(_changeType(result["IssuedTo"]))),
       ],
     );
   }
@@ -62,13 +50,11 @@ class _AllIssuedItemsState extends State<AllIssuedItems> {
   _parseDataIntoDataTable(var itemName) {
     return DataTable(
       columns: [
-        DataColumn(label: Text("ID"), numeric: true),
-        DataColumn(label: Text("Name")),
+        DataColumn(label: Text("Lab Name")),
         DataColumn(label: Text("Item Name")),
-        DataColumn(label: Text("Issue Data")),
-        DataColumn(label: Text("Renewal Data")),
         DataColumn(label: Text("Quantity"), numeric: true),
-        DataColumn(label: Text("Type")),
+        DataColumn(label: Text("Issue Date")),
+        DataColumn(label: Text("Renewal Date")),
       ],
       rows: List.generate(
           itemName.length, (index) => _getDataRow(itemName[index])),
@@ -80,7 +66,7 @@ class _AllIssuedItemsState extends State<AllIssuedItems> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black12,
-        title: new Text("Issued Items for "+ user.name, style: TextStyle(color: Colors.deepPurple, fontFamily: "RobotoMono"),)
+        title: new Text("Borrowed Items for "+ user.name, style: TextStyle(color: Colors.deepPurple, fontFamily: "RobotoMono"),)
       ),
       body: Center(
         child: FutureBuilder(
