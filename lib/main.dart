@@ -130,7 +130,7 @@ class _FormState extends State<Form> {
         //print("wrong credentials");
       });
     }else{
-      User userObj = User(user.text, "NAME");
+      User userObj = User(data[0]["UserID"], data[0]["Name"]);
       print(data);
       Navigator.of(context).pushNamed(data[0]["Type"], arguments: userObj);
     }
