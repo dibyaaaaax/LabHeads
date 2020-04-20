@@ -121,7 +121,7 @@ class _FormState extends State<Form> {
       "password": pass.text,
     });
     var data = jsonDecode(response.body);
-    
+    print(data);
     if(data.length == 0){
       setState(() {
         
@@ -131,7 +131,7 @@ class _FormState extends State<Form> {
       });
     }else{
       User userObj = User(data[0]["UserID"], data[0]["Name"]);
-      print(data);
+
       Navigator.of(context).pushNamed(data[0]["Type"], arguments: userObj);
     }
 
@@ -218,7 +218,10 @@ class User{
   var name;
   var id;
 
-  User(this.id, this.name);
+  User(var id, var name){
+    this.id = id;
+    this.name = name;
+  }
 }
 
 class RouteGenerator{

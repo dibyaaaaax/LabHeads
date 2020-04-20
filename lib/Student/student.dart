@@ -33,9 +33,9 @@ class Student extends StatelessWidget{
   Navigator.pop(context);
 }
 
-dummy_func(){
-  print("I do nothing");
-}
+  void dummyfunc(){
+    print(this.user.name);
+  }
 
   _button(text, navigateTo, context) => RaisedButton(
       onPressed: () {
@@ -63,6 +63,7 @@ dummy_func(){
         fontSize: 30.0,
         fontWeight: FontWeight.w900,
       ),
+      
     );
    @override
   Widget build(BuildContext context) {
@@ -85,7 +86,7 @@ dummy_func(){
                         padding: EdgeInsets.only(bottom: 5.0,
                         top: 5.0, left: 10.0),
                         child: _welcomeMsg("Robin"),
-                      
+                        
                       ),
                       SizedBox(width: MediaQuery.of(context).size.width*0.5,),
                       Container(
