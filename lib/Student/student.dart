@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:web_proj/Reports/damagereport.dart';
+import 'package:web_proj/Reports/labTimings.dart';
 import 'package:web_proj/Reports/requestBuy.dart';
 import 'package:web_proj/LabManagers/allIssuedItems.dart';
 import 'package:http/http.dart' as http;
 import 'package:web_proj/main.dart';
 
 
-/*class Student extends StatelessWidget {
+/* class Student1 extends StatelessWidget {
   
   // This widget is the root of your application.
   @override
@@ -17,7 +18,7 @@ import 'package:web_proj/main.dart';
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: StuSearch(),
+      home: Student(user:User(123, "Tom")),
     );
   }
 }  Removed for navigation  */ 
@@ -174,8 +175,9 @@ Future navigate_Request(context) async{
   MaterialPageRoute(builder: (context) => RequestBuy()));
 }
 
-dummy_func(){
-  print("I do nothing");
+Future navigate_labTimings(context) async{
+  Navigator.push(context, 
+  MaterialPageRoute(builder: (context) => LabTimings()));
 }
 
 
@@ -235,7 +237,7 @@ _button(_text, navigateTo) => RaisedButton(
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children:[
-                _button("Check Lab Timings", dummy_func),
+                _button("Check Lab Timings", navigate_labTimings),
                 SizedBox(width: 20.0,),
                 _button("File Damage Report", navigate_Report),
                 SizedBox(width: 20.0,),
