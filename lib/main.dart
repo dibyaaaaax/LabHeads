@@ -2,9 +2,12 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'Student/student.dart';
+import 'Student/issuedItems.dart';
 import 'LabManagers/labManagers.dart';
 import 'Clubs/clubs.dart';
 import 'package:http/http.dart' as http;
+import 'LabManagers/allIssuedItems.dart';
+import 'Professor/professor.dart';
 
 void main() {
   runApp(MyApp());
@@ -15,7 +18,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Inventory Management System',
+      title: 'Lab Management System',
       theme: ThemeData(
         
         primarySwatch: Colors.blue,
@@ -25,11 +28,13 @@ class MyApp extends StatelessWidget {
       
       //Please add your routes over here, using your Dart file name as the string.
 
-      routes: <String,WidgetBuilder>{
-        'Student':(BuildContext context)=> new Student(),
-        'LabManagers':(BuildContext context)=> new LabManagers(),
-        'Clubs':(BuildContext context)=> new Clubs(),
-      },
+      // routes: <String,WidgetBuilder>{
+      //   'Student':(BuildContext context)=> new Student(),
+      //   'LabManagers':(BuildContext context)=> new LabManagers(name: "Shannon",),
+      //   'Clubs':(BuildContext context)=> new Clubs(),
+      //   'Professor':(BuildContext context)=> new Professor(),
+      // },
+      onGenerateRoute: RouteGenerator.generateRoute,
     );
   }
 }
@@ -47,65 +52,52 @@ class MyHomePage extends StatelessWidget {
       //   )
       // ),
       color: Color.fromRGBO(42, 54, 63, 1),
-    child: Material(
-      type: MaterialType.transparency,
-      child:
-      Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          RichText(
-            text: TextSpan(
-              style: DefaultTextStyle.of(context).style,
-              children: <TextSpan>[
-                TextSpan(
-                  text: 'Lab Management System\n',
-              style: TextStyle(color: Color.fromRGBO(110, 217, 160, 1)),
-                ),
-            ],
-            ),
-          ),
-          Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Column( 
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Image.asset(
-                "assets/images/labmanageicon.png",
-                width: 250,
-                height: 300,
+      child: Material(
+        type: MaterialType.transparency,
+        child : Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            RichText(
+              text: TextSpan(
+                style: DefaultTextStyle.of(context).style,
+                children: <TextSpan>[
+                  TextSpan(
+                    text: 'Lab Management System\n',
+                style: TextStyle(color: Color.fromRGBO(110, 217, 160, 1)),
+                  ),
+              ],
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+              Column( 
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  SizedBox(width:340),
                   Image.asset(
-                    "images/head.png",
-                    width: 150,
-                    height: 200
-                    )
-            ],
-          ),
+                    "images/Labhead.png",
+                    width: 250,
+                    height: 300,
+                    ),
+                  ]
+                ),
+                VerticalDivider(
+                  color: Color.fromRGBO(237, 237, 237, 0.5),
+                  thickness: 1,
+                  indent: 100,
+                  endIndent: 100,
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Form()
+                  ],
+                )
+              ]
+            ),
           ]
-          ),
-          VerticalDivider(
-            color: Color.fromRGBO(237, 237, 237, 0.5),
-            thickness: 1,
-            indent: 100,
-            endIndent: 100,
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-             Form()
-            ],
-          )
-        ]
-    ),
-        ],
+        )
       ),
-       
-    )
     );
   }
 }
@@ -122,13 +114,14 @@ class _FormState extends State<Form> {
   TextEditingController pass = new TextEditingController();
   String msg = '';
 
+
   Future _login() async {
     http.Response response = await http.post("http://labheadsbase.000webhostapp.com/login.php",body: {
       "username": user.text,
       "password": pass.text,
     });
     var data = jsonDecode(response.body);
-    
+    print(data);
     if(data.length == 0){
       setState(() {
         
@@ -137,8 +130,9 @@ class _FormState extends State<Form> {
         //print("wrong credentials");
       });
     }else{
-      print(data[0]["Type"]);
-      Navigator.pushNamed(context, data[0]["Type"]);
+      User userObj = User(data[0]["UserID"], data[0]["Name"]);
+
+      Navigator.of(context).pushNamed(data[0]["Type"], arguments: userObj);
     }
 
   } 
@@ -216,5 +210,53 @@ class _FormState extends State<Form> {
          ],
        ),
     );
+  }
+}
+
+
+class User{
+  var name;
+  var id;
+
+  User(var id, var name){
+    this.id = id;
+    this.name = name;
+  }
+}
+
+class RouteGenerator{
+  static Route<dynamic> generateRoute(RouteSettings settings){
+    final args = settings.arguments;
+    switch(settings.name){
+      case "Student":
+        if (args is User){
+          return MaterialPageRoute(
+            builder: (_) => Student(user: args),
+            );
+        }
+        break;
+      case "LabManagers":
+        if (args is User){
+          return MaterialPageRoute(
+            builder: (_) => LabManagers(user: args),
+            );
+        }
+        break;
+        case "Clubs":
+          if (args is User){
+            return MaterialPageRoute(
+              builder: (_) => Clubs(user: args),
+              );
+          }
+          break;
+        case "LabManagers":
+          //if (args is User){
+            return MaterialPageRoute(
+              builder: (_) => Professor(),
+              );
+          //}
+          break;
+    }
+
   }
 }

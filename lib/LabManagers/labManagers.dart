@@ -1,25 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:web_proj/LabManagers/addItem.dart';
-
-/*class LabManagers extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Labs',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: LabPage(),
-    );
-  }
-} REMOVED FOR NAVIGATION*/
+import 'package:web_proj/LabManagers/allBorrowedItems.dart';
+import 'package:web_proj/LabManagers/allIssuedItems.dart';
+import 'package:web_proj/LabManagers/searchItems.dart';
+import 'package:web_proj/main.dart';
 
 class LabManagers extends StatelessWidget {
+  // final String name;
+  // LabManagers({Key key, @required this.name}) : super(key: key);
+  final User user;
 
-  _searchBar(text, context) {
+  // In the constructor, require a Todo.
+  LabManagers({Key key, @required this.user}) : super(key: key);
+
+  TextEditingController querycontroller = new TextEditingController();
+
+  _searchBar(text, context, query) {
     return TextFormField(
+      controller: query,
       decoration: InputDecoration(
         labelText: 'Search Item',
         enabledBorder: OutlineInputBorder(
@@ -53,13 +51,28 @@ class LabManagers extends StatelessWidget {
     Navigator.push(context, MaterialPageRoute(builder: (context) => AddItem()));
   }
 
+  _navigateToIssuedItems(context) {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => AllIssuedItems(user: user)));
+  }
+
+  _navigateToBorrowedItems(context) {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => AllBorrowedItems(user: user)));
+  }
+
+  _navigateToSearchItems(context) {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => SearchItems(user: user, query: querycontroller.text)));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.black12,
-        title: new Text("Shannon",
+        title: new Text(user.name,
             style:
                 TextStyle(color: Colors.deepPurple, fontFamily: 'RobotoMono')),
         actions: <Widget>[
@@ -79,11 +92,11 @@ class LabManagers extends StatelessWidget {
                 new Container(
                   width: 400,
                   height: 50,
-                  child: _searchBar("Search Item", context),
+                  child: _searchBar("Search Item", context, querycontroller),
                 ),
                 new Container(
-                  padding: EdgeInsets.only(left:30),
-                  child: _button("Search", context, null),
+                  padding: EdgeInsets.only(left: 30),
+                  child: _button("Search", context, _navigateToSearchItems),
                 )
               ],
             ),
@@ -94,13 +107,15 @@ class LabManagers extends StatelessWidget {
                     child: Padding(
                   padding: EdgeInsets.only(
                       left: 100, right: 50, bottom: 10, top: 50),
-                  child: _button("Students List", context, null),
+                  child:
+                      _button("Issued Items", context, _navigateToIssuedItems),
                 )),
                 new Container(
                   child: Padding(
                     padding: EdgeInsets.only(
                         left: 50, right: 50, bottom: 10, top: 50),
-                    child: _button("Items Borrowed", context, null),
+                    child: _button(
+                        "Items Borrowed", context, _navigateToBorrowedItems),
                   ),
                 ),
                 new Container(

@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:web_proj/Reports/damagereport.dart';
+import 'package:web_proj/Reports/labTimings.dart';
 import 'package:web_proj/Reports/requestBuy.dart';
+import 'package:web_proj/LabManagers/allIssuedItems.dart';
 import 'package:http/http.dart' as http;
+import 'package:web_proj/main.dart';
 
-/*class Student extends StatelessWidget {
+
+/* class Student1 extends StatelessWidget {
   
   // This widget is the root of your application.
   @override
@@ -14,20 +18,25 @@ import 'package:http/http.dart' as http;
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: StuSearch(),
+      home: Student(user:User(123, "Tom")),
     );
   }
 }  Removed for navigation  */ 
 
 class Student extends StatelessWidget{
 
+   final User user;
+
+  // In the constructor, require a Todo.
+  Student({Key key, @required this.user}) : super(key: key);
+
   Future navigate_back(context) async{
   Navigator.pop(context);
 }
 
-dummy_func(){
-  print("I do nothing");
-}
+  void dummyfunc(){
+    print(this.user.name);
+  }
 
   _button(text, navigateTo, context) => RaisedButton(
       onPressed: () {
@@ -43,13 +52,19 @@ dummy_func(){
         
   );
 
+  Future navigate_issuedItems(context) async{
+  Navigator.push(context, 
+  MaterialPageRoute(builder: (context) => AllIssuedItems(user: user)));
+}
+
   _welcomeMsg(name) => Text(
-      "Welcome, " + name,
+      "Welcome, " + user.name,
       style: TextStyle(
         color: Colors.deepPurpleAccent,
         fontSize: 30.0,
         fontWeight: FontWeight.w900,
       ),
+      
     );
    @override
   Widget build(BuildContext context) {
@@ -72,14 +87,14 @@ dummy_func(){
                         padding: EdgeInsets.only(bottom: 5.0,
                         top: 5.0, left: 10.0),
                         child: _welcomeMsg("Robin"),
-                      
+                        
                       ),
                       SizedBox(width: MediaQuery.of(context).size.width*0.5,),
                       Container(
                         child: Row(children: <Widget>[
-                          _button("Issued Items", dummy_func, context),
+                          _button("Issued Items", navigate_issuedItems, context),
                           SizedBox(width: 20.0,),
-                          _button("log Out", navigate_back, context)
+                          _button("Log Out", navigate_back, context)
                         ],)
                       )
                     ],),
@@ -109,19 +124,6 @@ var _departments = ["Department", "CSE", "ECE", "HCI"];
 var _labs = ["Lab", "Midas", "Shannon", "Tav"];
 var current_dep = ["Department"];
 var current_lab = ["Lab"];
-
-
-Future _issuedItems(context) async {
-    print("asdd");
-      http.Response response = await http.post("http://labheadsbase.000webhostapp.com/issuedItems.php",
-      body: {
-        "ID": 2017002 
-      });
-
-      var data = response.body;
-      print(data);
-
-  }
 
 
 //InputNameText field
@@ -166,13 +168,16 @@ Future navigate_Report(context) async{
   MaterialPageRoute(builder: (context) => DamageReport()));
 }
 
+
+
 Future navigate_Request(context) async{
   Navigator.push(context, 
   MaterialPageRoute(builder: (context) => RequestBuy()));
 }
 
-dummy_func(){
-  print("I do nothing");
+Future navigate_labTimings(context) async{
+  Navigator.push(context, 
+  MaterialPageRoute(builder: (context) => LabTimings()));
 }
 
 
@@ -232,7 +237,7 @@ _button(_text, navigateTo) => RaisedButton(
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children:[
-                _button("Check Lab Timings", dummy_func),
+                _button("Check Lab Timings", navigate_labTimings),
                 SizedBox(width: 20.0,),
                 _button("File Damage Report", navigate_Report),
                 SizedBox(width: 20.0,),

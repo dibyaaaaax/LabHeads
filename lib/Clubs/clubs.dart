@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:web_proj/Reports/damagereport.dart';
+import 'package:web_proj/Reports/labTimings.dart';
 import 'package:web_proj/Reports/requestBuy.dart';
+import 'package:web_proj/Clubs/book_labs.dart';
+import 'package:web_proj/LabManagers/allIssuedItems.dart';
+import 'package:http/http.dart' as http;
+import 'package:web_proj/main.dart';
 
 
 /*class Clubs extends StatelessWidget {
@@ -20,6 +25,11 @@ import 'package:web_proj/Reports/requestBuy.dart';
 }*/
 
 class Clubs extends StatelessWidget{
+
+  final User user;
+
+ // In the constructor, require a Todo.
+  Clubs({Key key, @required this.user}) : super(key: key);
 
   Future navigate_back(context) async{
   Navigator.pop(context);
@@ -43,8 +53,17 @@ button_pressed(){
         
   );
 
+    Future navigate_issuedItems(context) async{
+  Navigator.push(context, 
+  MaterialPageRoute(builder: (context) => AllIssuedItems(user: user)));}
+
+    Future navigate_book_labs(context) async{
+  Navigator.push(context, 
+  MaterialPageRoute(builder: (context) => Book_Labs(user: user)));}
+  
+
   _welcomeMsg(name) => Text(
-      "Welcome, " + name,
+      "Welcome, " + user.name,
       style: TextStyle(
         color: Colors.deepPurpleAccent,
         fontSize: 30.0,
@@ -74,12 +93,15 @@ button_pressed(){
                         child: _welcomeMsg("Legend"),
                       
                       ),
-                      SizedBox(width: MediaQuery.of(context).size.width*0.5,),
+                      SizedBox(width: MediaQuery.of(context).size.width*0.48,),
                       Container(
                         child: Row(children: <Widget>[
-                          _button("Issued Items", button_pressed, context),
+                          _button("Issued Items", navigate_issuedItems, context),
                           SizedBox(width: 20.0,),
-                          _button("Log Out", navigate_back, context)
+                          _button("Request Lab(s)", navigate_book_labs, context),
+                          SizedBox(width: 20.0,),
+                          _button("Log Out", navigate_back, context),
+                          SizedBox(width: 10.0,),                        
                         ],)
                       )
                     ],),
@@ -158,10 +180,10 @@ Future navigate_Request(context) async{
   MaterialPageRoute(builder: (context) => RequestBuy()));
 }
 
-button_pressed(){
-  print("button pressed");
+Future navigate_labTimings(context) async{
+  Navigator.push(context, 
+  MaterialPageRoute(builder: (context) => LabTimings()));
 }
-
 
 _button(_text, navigateTo) => RaisedButton(
       onPressed: () {
@@ -219,13 +241,11 @@ _button(_text, navigateTo) => RaisedButton(
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children:[
-                _button("Check Lab Timings", button_pressed),
+                _button("Check Lab Timings", navigate_labTimings),
                 SizedBox(width: 20.0,),
                 _button("File Damage Report", navigate_Report),
                 SizedBox(width: 20.0,),
                 _button("Request New Items", navigate_Request),
-                SizedBox(width: 20.0,),
-                _button("Book Rooms/Labs", button_pressed),
             ]),            
             
 
