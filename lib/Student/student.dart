@@ -94,7 +94,7 @@ class Student extends StatelessWidget{
                         child: Row(children: <Widget>[
                           _button("Issued Items", navigate_issuedItems, context),
                           SizedBox(width: 20.0,),
-                          _button("log Out", navigate_back, context)
+                          _button("Log Out", navigate_back, context)
                         ],)
                       )
                     ],),
