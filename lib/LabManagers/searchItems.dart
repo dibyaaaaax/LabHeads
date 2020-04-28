@@ -116,30 +116,31 @@ class _SearchItemsState extends State<SearchItems> {
   SingleChildScrollView _parseDataIntoDataTable() {
     print(allItems);
     return SingleChildScrollView(
+        scrollDirection: Axis.vertical,
         child: DataTable(
-      columns: [
-        DataColumn(label: Text("Lab Name")),
-        DataColumn(label: Text("Item Name")),
-        DataColumn(label: Text("Quantity"), numeric: true),
-        DataColumn(label: Text("Item ID")),
-        DataColumn(label: Text("Lab ID")),
-      ],
-      rows: allItems
-          .map((item) => DataRow(
-                selected: selectedItems.contains(_parseIndItem(item)),
-                onSelectChanged: (b) {
-                  _onSelectedRow(b, item);
-                },
-                cells: <DataCell>[
-                  DataCell(Text(item.labName)),
-                  DataCell(Text(item.itemName)),
-                  DataCell(Text(item.quant)),
-                  DataCell(Text(item.itemId)),
-                  DataCell(Text(item.labId)),
-                ],
-              ))
-          .toList(),
-    ));
+          columns: [
+            DataColumn(label: Text("Lab Name")),
+            DataColumn(label: Text("Item Name")),
+            DataColumn(label: Text("Quantity"), numeric: true),
+            DataColumn(label: Text("Item ID")),
+            DataColumn(label: Text("Lab ID")),
+          ],
+          rows: allItems
+              .map((item) => DataRow(
+                    selected: selectedItems.contains(_parseIndItem(item)),
+                    onSelectChanged: (b) {
+                      _onSelectedRow(b, item);
+                    },
+                    cells: <DataCell>[
+                      DataCell(Text(item.labName)),
+                      DataCell(Text(item.itemName)),
+                      DataCell(Text(item.quant)),
+                      DataCell(Text(item.itemId)),
+                      DataCell(Text(item.labId)),
+                    ],
+                  ))
+              .toList(),
+        ));
   }
 
   void _validateInputs() {
@@ -225,28 +226,31 @@ class _SearchItemsState extends State<SearchItems> {
                     textAlign: TextAlign.center,
                   );
                 } else {
-                  return Column(
-                    children: <Widget>[
-                      new Container(
-                        padding: EdgeInsets.all(10),
-                        //child: SingleChildScrollView(
-                        child: _parseDataIntoDataTable(),
-                        //),
-                      ),
-                      new Container(
-                          child: new Form(
-                        key: _quantKey,
-                        autovalidate: _autoValidate,
-                        child: new Container(
-                          padding: EdgeInsets.only(
-                              right: 350, left: 350, top: 80, bottom: 10),
-                          child: _quantityField(context, quantitycontroller),
+                  return SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    child: Column(
+                      children: <Widget>[
+                        new Container(
+                          padding: EdgeInsets.all(10),
+                          //child: SingleChildScrollView(
+                          child: _parseDataIntoDataTable(),
+                          //),
                         ),
-                      )),
-                      new Container(
-                        child: _bookButton(context),
-                      )
-                    ],
+                        new Container(
+                            child: new Form(
+                          key: _quantKey,
+                          autovalidate: _autoValidate,
+                          child: new Container(
+                            padding: EdgeInsets.only(
+                                right: 350, left: 350, top: 80, bottom: 10),
+                            child: _quantityField(context, quantitycontroller),
+                          ),
+                        )),
+                        new Container(
+                          child: _bookButton(context),
+                        )
+                      ],
+                    ),
                   );
                 }
             }
