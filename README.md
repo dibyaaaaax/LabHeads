@@ -43,15 +43,15 @@ Here are some sites that you can use for your reference:
 
 Also, currently you can use the following to login 
 (for a Student)
-- Username: ST18001  
-- password: Mohnish
+- Username: tracey001  
+- password: check1234
 
 (for a Club)
-- Username: CL100  
-- password: ShannonLab
+- Username: Electroholic200  
+- password: check1234
 
 (for a Lab)
-- Username: LM100  
-- password: Shannon
+- Username: Luke801  
+- password: 
 
  I will add others later, If you want, you can add your own user details by going to database and adding values to UserDetails table.

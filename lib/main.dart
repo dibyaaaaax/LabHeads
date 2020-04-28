@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Inventory Management System',
+      title: 'Lab Management System',
       theme: ThemeData(
         
         primarySwatch: Colors.blue,
@@ -243,11 +243,11 @@ class RouteGenerator{
         }
         break;
         case "Clubs":
-          //if (args is User){
+          if (args is User){
             return MaterialPageRoute(
-              builder: (_) => Clubs(),
+              builder: (_) => Clubs(user: args),
               );
-          //}
+          }
           break;
         case "LabManagers":
           //if (args is User){
