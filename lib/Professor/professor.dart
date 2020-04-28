@@ -5,7 +5,7 @@ import 'package:web_proj/Reports/labTimings.dart';
 import 'package:web_proj/Reports/authorizedPersonnel.dart';
 import 'package:web_proj/LabManagers/addItem.dart';
 import 'package:web_proj/helperClasses.dart';
-import 'package:web_proj/LabManagers/allIssuedItems.dart';
+import 'package:web_proj/LabManagers/allBorrowedItems.dart';
 import 'package:web_proj/Reports/searchResults.dart';
 
 
@@ -61,7 +61,7 @@ class Professor extends StatelessWidget{
 
   Future navigate_issuedItems(context) async{
   Navigator.push(context, 
-  MaterialPageRoute(builder: (context) => AllIssuedItems(user: user)));
+  MaterialPageRoute(builder: (context) => AllBorrowedItems(user: user)));
 }
 
   _welcomeMsg(name) => Text(
