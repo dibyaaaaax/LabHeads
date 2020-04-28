@@ -8,6 +8,7 @@ import 'Clubs/clubs.dart';
 import 'package:http/http.dart' as http;
 import 'LabManagers/allIssuedItems.dart';
 import 'Professor/professor.dart';
+import 'package:web_proj/helperClasses.dart';
 
 void main() {
   runApp(MyApp());
@@ -214,16 +215,6 @@ class _FormState extends State<Form> {
 }
 
 
-class User{
-  var name;
-  var id;
-
-  User(var id, var name){
-    this.id = id;
-    this.name = name;
-  }
-}
-
 class RouteGenerator{
   static Route<dynamic> generateRoute(RouteSettings settings){
     final args = settings.arguments;
@@ -249,10 +240,10 @@ class RouteGenerator{
               );
           }
           break;
-        case "LabManagers":
+        case "Professor":
           //if (args is User){
             return MaterialPageRoute(
-              builder: (_) => Professor(),
+              builder: (_) => Professor(user: args),
               );
           //}
           break;

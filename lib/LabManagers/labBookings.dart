@@ -4,9 +4,10 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'dart:collection';
 import 'package:web_proj/main.dart' as main;
+import 'package:web_proj/helperClasses.dart';
 
 class LabBookings extends StatefulWidget {
-  final main.User user;
+  final User user;
 
   LabBookings({Key key, @required this.user}) : super(key: key);
 
@@ -19,7 +20,7 @@ class LabBookings extends StatefulWidget {
 }
 
 class _LabBookingsState extends State<LabBookings> {
-  final main.User user;
+  final User user;
   _LabBookingsState(this.user);
   List<BookingObject> allBookings = new List<BookingObject>();
   TextEditingController bookedToController = new TextEditingController();

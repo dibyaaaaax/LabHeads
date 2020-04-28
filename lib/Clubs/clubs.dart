@@ -6,6 +6,8 @@ import 'package:web_proj/Clubs/book_labs.dart';
 import 'package:web_proj/LabManagers/allIssuedItems.dart';
 import 'package:http/http.dart' as http;
 import 'package:web_proj/main.dart';
+import 'package:web_proj/Reports/searchResults.dart';
+import 'package:web_proj/helperClasses.dart';
 
 
 /*class Clubs extends StatelessWidget {
@@ -93,7 +95,7 @@ button_pressed(){
                         child: _welcomeMsg("Legend"),
                       
                       ),
-                      SizedBox(width: MediaQuery.of(context).size.width*0.48,),
+                      SizedBox(width: MediaQuery.of(context).size.width*0.3,),
                       Container(
                         child: Row(children: <Widget>[
                           _button("Issued Items", navigate_issuedItems, context),
@@ -109,7 +111,7 @@ button_pressed(){
                   )
               ),
 
-              Form(),
+              _Form(user: user),
             ],)
           )
         )
@@ -118,19 +120,25 @@ button_pressed(){
 
 }
 
-class Form extends StatefulWidget {
-  Form({Key key}) : super(key: key);
+class _Form extends StatefulWidget {
+  final User user;
+  _Form({Key key, @required this.user}) : super(key: key);
 
   @override
-  _FormState createState() => _FormState();
+  _FormState createState() => _FormState(user);
 }
 
-class _FormState extends State<Form> {
+class _FormState extends State<_Form> {
 
-var _departments = ["Department", "CSE", "ECE", "HCI"]; 
-var _labs = ["Lab", "Midas", "Shannon", "Tav"];
-var current_dep = ["Department"];
+   final User user;
+  _FormState(this.user);
+  
+
+var _labs = ["Lab", "CSE Lab", "Shannon Lab", "Midas Lab", "Precog", "BE Lab",
+            "D&I Lab", "BioLab", "RFA Lab", "PhyLab", "DesLab", "Aurora", "TavLab"];
 var current_lab = ["Lab"];
+
+TextEditingController itemname = new TextEditingController();
 
 
 //InputNameText field
@@ -185,6 +193,11 @@ Future navigate_labTimings(context) async{
   MaterialPageRoute(builder: (context) => LabTimings()));
 }
 
+Future navigate_searchResults(context) async{
+  Navigator.push(context, 
+  MaterialPageRoute(builder: (context) => SearchItemsStu(user: user, query: SearchParams(itemname.text, current_lab[0]))));
+}
+
 _button(_text, navigateTo) => RaisedButton(
       onPressed: () {
         navigateTo(context);        
@@ -213,7 +226,7 @@ _button(_text, navigateTo) => RaisedButton(
               children:[
                 _inputNameField(context, "Look for an item"),
                 SizedBox(width: 20.0,),
-                _button("Find Item", DamageReport)
+                _button("Find Item", navigate_searchResults)
 
             ]),
             Row(
@@ -222,8 +235,6 @@ _button(_text, navigateTo) => RaisedButton(
                 Text("Search By:"),
                 SizedBox(width: 20.0,),
                 _dropdown(this.current_lab, _labs, "Labs"),
-                SizedBox(width: 20.0,),
-                 _dropdown(this.current_dep, _departments, "Departments"),
 
             ]),
             SizedBox(height: 50.0,),
