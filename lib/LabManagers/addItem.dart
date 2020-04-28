@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'dart:collection';
-import 'package:web_proj/main.dart' as main;
+import 'package:web_proj/helperClasses.dart';
 
 class AddItem extends StatefulWidget {
-  final main.User user;
+  final User user;
 
   AddItem({Key key, @required this.user}) : super(key: key);
 
@@ -19,7 +17,7 @@ class AddItem extends StatefulWidget {
 }
 
 class AddItemState extends State<AddItem> {
-  final main.User user;
+  final User user;
   AddItemState(this.user);
   final _formKey = GlobalKey<FormState>();
   bool _autoValidate = false;

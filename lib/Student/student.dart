@@ -6,6 +6,7 @@ import 'package:web_proj/LabManagers/allIssuedItems.dart';
 import 'package:http/http.dart' as http;
 import 'package:web_proj/Reports/searchResults.dart';
 import 'package:web_proj/main.dart';
+import 'package:web_proj/helperClasses.dart';
 
 
 /* class Student1 extends StatelessWidget {
@@ -264,8 +265,3 @@ _button(_text, navigateTo) => RaisedButton(
   }
 }
 
-class SearchParams{
-  var labname;
-  var itemname;
-  SearchParams(this.itemname, this.labname);
-}

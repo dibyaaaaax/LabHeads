@@ -4,9 +4,10 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'dart:collection';
 import 'package:web_proj/main.dart' as main;
+import 'package:web_proj/helperClasses.dart';
 
 class ShowSuggestions extends StatefulWidget {
-  final main.User user;
+  final User user;
 
   ShowSuggestions({Key key, @required this.user}) : super(key: key);
 
@@ -19,7 +20,7 @@ class ShowSuggestions extends StatefulWidget {
 }
 
 class _ShowSuggestionsState extends State<ShowSuggestions> {
-  final main.User user;
+  final User user;
   _ShowSuggestionsState(this.user);
   List<SuggestionsObj> allSuggestions = new List<SuggestionsObj>();
 

@@ -2,13 +2,11 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'dart:collection';
-import 'package:web_proj/main.dart' as main;
-import 'package:web_proj/Student/student.dart' as student;
+import 'package:web_proj/helperClasses.dart';
 
 class SearchItemsStu extends StatefulWidget {
-  final student.SearchParams query;
-  final main.User user;
+  final SearchParams query;
+  final User user;
 
   SearchItemsStu({Key key, @required this.user, @required this.query})
       : super(key: key);
@@ -22,8 +20,8 @@ class SearchItemsStu extends StatefulWidget {
 }
 
 class _SearchItemsStuState extends State<SearchItemsStu> {
-  final student.SearchParams query;
-  final main.User user;
+  final SearchParams query;
+  final User user;
 
   bool _autoValidate = false;
   _SearchItemsStuState(this.user, this.query);
