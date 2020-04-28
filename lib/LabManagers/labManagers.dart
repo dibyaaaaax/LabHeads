@@ -3,6 +3,8 @@ import 'package:web_proj/LabManagers/addItem.dart';
 import 'package:web_proj/LabManagers/allBorrowedItems.dart';
 import 'package:web_proj/LabManagers/allIssuedItems.dart';
 import 'package:web_proj/LabManagers/searchItems.dart';
+import 'package:web_proj/LabManagers/showSuggestions.dart';
+import 'package:web_proj/LabManagers/labBookings.dart';
 import 'package:web_proj/main.dart';
 
 class LabManagers extends StatelessWidget {
@@ -48,12 +50,22 @@ class LabManagers extends StatelessWidget {
   }
 
   _navigateToAddItem(context) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => AddItem()));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => AddItem(user: user)));
+  }
+
+  _navigateToItemSuggestions(context) {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => ShowSuggestions(user: user)));
   }
 
   _navigateToIssuedItems(context) {
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => AllIssuedItems(user: user)));
+  }
+
+  _navigateToLabBookings(context) {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => LabBookings(user: user)));
   }
 
   _navigateToBorrowedItems(context) {
@@ -62,8 +74,11 @@ class LabManagers extends StatelessWidget {
   }
 
   _navigateToSearchItems(context) {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => SearchItems(user: user, query: querycontroller.text)));
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                SearchItems(user: user, query: querycontroller.text)));
   }
 
   @override
@@ -76,6 +91,10 @@ class LabManagers extends StatelessWidget {
             style:
                 TextStyle(color: Colors.deepPurple, fontFamily: 'RobotoMono')),
         actions: <Widget>[
+          Padding(
+            padding: EdgeInsets.all(5),
+            child: _button("Lab Bookings", context, _navigateToLabBookings),
+          ),
           Padding(
             padding: EdgeInsets.all(5),
             child: _button("Logout", context, _logout),
@@ -122,7 +141,8 @@ class LabManagers extends StatelessWidget {
                     child: Padding(
                   padding: EdgeInsets.only(
                       left: 50, right: 100, bottom: 10, top: 50),
-                  child: _button("Item Suggestions", context, null),
+                  child: _button(
+                      "Item Suggestions", context, _navigateToItemSuggestions),
                 )),
               ],
             ),
