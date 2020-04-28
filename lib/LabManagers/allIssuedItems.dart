@@ -49,8 +49,8 @@ class _AllIssuedItemsState extends State<AllIssuedItems> {
     return DataRow(
       cells: <DataCell>[
         DataCell(Text(result["IssuedToID"])),
-        DataCell(Text(result["(CASE WHEN IssuedItems.IssuedTo='S' THEN Students.StudentName WHEN IssuedItems.IssuedTo='L' THEN Labs.Name WHEN IssuedItems.IssuedTo='C' THEN Clubs.ClubName END)"])),
-        DataCell(Text(result["ItemName"])),
+        DataCell(Text(result["Name"])),
+        DataCell(Text(result["name"])),
         DataCell(Text(result["issuedDate"])),
         DataCell(Text(result["renewalDate"])),
         DataCell(Text(result["Quantity"])),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:web_proj/Reports/damagereport.dart';
 import 'package:web_proj/Reports/requestBuy.dart';
+import 'package:web_proj/Reports/labTimings.dart';
+import 'package:web_proj/Reports/authorizedPersonnel.dart';
 import 'package:web_proj/LabManagers/addItem.dart';
 
 
@@ -159,6 +161,17 @@ class _FormState extends State<Form> {
         MaterialPageRoute(builder: (context) => RequestBuy()));
   }
 
+  Future navigate_labTimings(context) async{
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => LabTimings()));
+  }
+
+  Future navigate_authorizedPersonnel(context) async{
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => AuthorizedPersonnel()));
+  }
+
+
   dummy_func(){
     print("I do nothing");
   }
@@ -220,19 +233,17 @@ class _FormState extends State<Form> {
           Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children:[
-                _button("Check Lab Timings", dummy_func),
+                _button("Check Lab Timings", navigate_labTimings),
                 SizedBox(width: 20.0,),
                 _button("File Damage Report", navigate_Report),
-                SizedBox(width: 20.0,),
-                _button("Special Request New Items", navigate_Request),
               ]),
           SizedBox(height: 30.0,),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children:[
-              _button("Check Damage Report", dummy_func),
+              _button("Special Request New Items", navigate_Request),
               SizedBox(width: 20.0,),
-              _button("Managers of the Lab", dummy_func)
+              _button("Authorized Personnel", navigate_authorizedPersonnel),
             ]),
 
         ],

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'dart:collection';
 import 'package:web_proj/main.dart' as main;
 
 class SearchItems extends StatefulWidget {
@@ -28,6 +29,8 @@ class _SearchItemsState extends State<SearchItems> {
   bool isSelected = false;
   final _quantKey = GlobalKey<FormState>();
   TextEditingController quantitycontroller = new TextEditingController();
+  List<int> selectedItems = new List<int>();
+  List<ItemObject> allItems = new List<ItemObject>();
 
   Future _searchResult() async {
     print("seareching");
@@ -39,7 +42,14 @@ class _SearchItemsState extends State<SearchItems> {
 
     var data = await jsonDecode(response.body);
     print(data);
-    return data;
+
+    List<ItemObject> map_json = new List<ItemObject>();
+    for (var i = 0; i < data.length; i++) {
+      ItemObject ll = new ItemObject(data[i]["ItemID"], data[i]["LabID"],
+          data[i]["quantity"], data[i]["name"], data[i]["Name"]);
+      map_json.add(ll);
+    }
+    allItems = map_json;
   }
 
   Future _bookItem(ItemObject rowData) async {
@@ -69,6 +79,7 @@ class _SearchItemsState extends State<SearchItems> {
               child: new Text("Close"),
               onPressed: () {
                 Navigator.of(context).pop();
+                Navigator.of(context).pop();
               },
             ),
           ],
@@ -77,52 +88,58 @@ class _SearchItemsState extends State<SearchItems> {
     );
   }
 
+  _onSelectedRow(bool selected, ItemObject item) async {
+    setState(() {
+      if (selected) {
+        selectedObj = item;
+        selectedItems.add(_parseIndItem(item));
+      } else {
+        selectedItems.remove(_parseIndItem(item));
+      }
+    });
+  }
+
   _bookChecks(ItemObject row) {
     print("inBookCheks");
-    if (row.avail == 0 ||
-        int.parse(row.quant) < int.parse(quantitycontroller.text)) {
+    if (int.parse(row.quant) < int.parse(quantitycontroller.text)) {
       return false;
     } else {
       return true;
     }
   }
 
-  _parseDataIntoDataTable(var itemData) {
-    return DataTable(
-        columns: [
-          DataColumn(label: Text("Lab Name")),
-          DataColumn(label: Text("Item Name")),
-          DataColumn(label: Text("Quantity"), numeric: true),
-          DataColumn(label: Text("Availability"), numeric: true),
-          DataColumn(label: Text("Item ID")),
-          DataColumn(label: Text("Lab ID")),
-        ],
-        rows: List.generate(
-            itemData.length,
-            (index) => DataRow(
-                  //selected: isSelected,
-                  onSelectChanged: (value) {
-                    setState(() {
-                    isSelected = value;
-                    if (value) {
-                      selectedObj = new ItemObject(
-                          itemData[index]["ItemID"],
-                          itemData[index]["LabID"],
-                          itemData[index]["quantity"],
-                          itemData[index]["Availability"]);
-                      print("row " + index.toString() + " pressed");
-                      print(selectedObj.itemId);
-                    }});
-                  },
-                  cells: <DataCell>[
-                    DataCell(Text(itemData[index]["Name"])),
-                    DataCell(Text(itemData[index]["name"])),
-                    DataCell(Text(itemData[index]["quantity"])),
-                    DataCell(Text(itemData[index]["Availability"])),
-                    DataCell(Text(itemData[index]["ItemID"])),
-                    DataCell(Text(itemData[index]["LabID"])),
-                  ],
-                )));
+  _parseIndItem(ItemObject item) {
+    String a = item.itemId.toString() + item.labId.toString();
+    return int.parse(a);
+  }
+
+  SingleChildScrollView _parseDataIntoDataTable() {
+    print(allItems);
+    return SingleChildScrollView(
+        child: DataTable(
+      columns: [
+        DataColumn(label: Text("Lab Name")),
+        DataColumn(label: Text("Item Name")),
+        DataColumn(label: Text("Quantity"), numeric: true),
+        DataColumn(label: Text("Item ID")),
+        DataColumn(label: Text("Lab ID")),
+      ],
+      rows: allItems
+          .map((item) => DataRow(
+                selected: selectedItems.contains(_parseIndItem(item)),
+                onSelectChanged: (b) {
+                  _onSelectedRow(b, item);
+                },
+                cells: <DataCell>[
+                  DataCell(Text(item.labName)),
+                  DataCell(Text(item.itemName)),
+                  DataCell(Text(item.quant)),
+                  DataCell(Text(item.itemId)),
+                  DataCell(Text(item.labId)),
+                ],
+              ))
+          .toList(),
+    ));
   }
 
   void _validateInputs() {
@@ -139,9 +156,7 @@ class _SearchItemsState extends State<SearchItems> {
     return RaisedButton(
       onPressed: () {
         _validateInputs();
-        //print("inputsValidated");
         if (_bookChecks(selectedObj)) {
-          //print("book checks passed");
           _bookItem(selectedObj);
         } else {
           _showDialog("Item not available");
@@ -204,34 +219,36 @@ class _SearchItemsState extends State<SearchItems> {
                     valueColor:
                         AlwaysStoppedAnimation<Color>(Colors.deepPurple));
               case ConnectionState.done:
-                if (snapshot.hasError)
+                if (snapshot.hasError) {
                   return Text(
                     'Error:\n\n${snapshot.error}',
                     textAlign: TextAlign.center,
                   );
-                return Column(
-                  children: <Widget>[
-                    new Container(
-                      padding: EdgeInsets.all(10),
-                      child: SingleChildScrollView(
-                        child: _parseDataIntoDataTable(snapshot.data),
+                } else {
+                  return Column(
+                    children: <Widget>[
+                      new Container(
+                        padding: EdgeInsets.all(10),
+                        //child: SingleChildScrollView(
+                        child: _parseDataIntoDataTable(),
+                        //),
                       ),
-                    ),
-                    new Container(
-                        child: new Form(
-                      key: _quantKey,
-                      autovalidate: _autoValidate,
-                      child: new Container(
-                        padding: EdgeInsets.only(
-                            right: 350, left: 350, top: 80, bottom: 10),
-                        child: _quantityField(context, quantitycontroller),
-                      ),
-                    )),
-                    new Container(
-                      child: _bookButton(context),
-                    )
-                  ],
-                );
+                      new Container(
+                          child: new Form(
+                        key: _quantKey,
+                        autovalidate: _autoValidate,
+                        child: new Container(
+                          padding: EdgeInsets.only(
+                              right: 350, left: 350, top: 80, bottom: 10),
+                          child: _quantityField(context, quantitycontroller),
+                        ),
+                      )),
+                      new Container(
+                        child: _bookButton(context),
+                      )
+                    ],
+                  );
+                }
             }
           },
         ),
@@ -244,12 +261,14 @@ class ItemObject {
   var itemId;
   var labId;
   var quant;
-  var avail;
+  var itemName;
+  var labName;
 
-  ItemObject(itemId, labId, quant, avail) {
+  ItemObject(itemId, labId, quant, itemName, labName) {
     this.itemId = itemId;
     this.labId = labId;
     this.quant = quant;
-    this.avail = avail;
+    this.itemName = itemName;
+    this.labName = labName;
   }
 }
