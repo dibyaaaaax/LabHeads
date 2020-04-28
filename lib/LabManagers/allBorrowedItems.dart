@@ -39,7 +39,7 @@ class _AllBorrowedItemsState extends State<AllBorrowedItems> {
     return DataRow(
       cells: <DataCell>[
         DataCell(Text(result["Name"])),
-        DataCell(Text(result["ItemName"])),
+        DataCell(Text(result["name"])),
         DataCell(Text(result["Quantity"])),
         DataCell(Text(result["issuedDate"])),
         DataCell(Text(result["renewalDate"])),
