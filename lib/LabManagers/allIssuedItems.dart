@@ -32,6 +32,7 @@ class _AllIssuedItemsState extends State<AllIssuedItems> {
         });
 
     var data = await jsonDecode(response.body);
+    print(data);
     return data;
   }
 
