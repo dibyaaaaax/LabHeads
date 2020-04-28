@@ -43,7 +43,7 @@ Here are some sites that you can use for your reference:
 
 Also, currently you can use the following to login 
 (for a Student)
-- Username: tracey001  
+- Username: Tracey2015001  
 - password: check1234
 
 (for a Club)
