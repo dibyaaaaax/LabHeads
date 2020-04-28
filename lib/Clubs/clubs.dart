@@ -3,7 +3,7 @@ import 'package:web_proj/Reports/damagereport.dart';
 import 'package:web_proj/Reports/labTimings.dart';
 import 'package:web_proj/Reports/requestBuy.dart';
 import 'package:web_proj/Clubs/book_labs.dart';
-import 'package:web_proj/LabManagers/allIssuedItems.dart';
+import 'package:web_proj/LabManagers/allBorrowedItems.dart';
 import 'package:http/http.dart' as http;
 import 'package:web_proj/main.dart';
 import 'package:web_proj/Reports/searchResults.dart';
@@ -57,7 +57,7 @@ button_pressed(){
 
     Future navigate_issuedItems(context) async{
   Navigator.push(context, 
-  MaterialPageRoute(builder: (context) => AllIssuedItems(user: user)));}
+  MaterialPageRoute(builder: (context) => AllBorrowedItems(user: user)));}
 
     Future navigate_book_labs(context) async{
   Navigator.push(context, 
