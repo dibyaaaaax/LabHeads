@@ -3,6 +3,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import'package:web_proj/main.dart';
+import 'package:web_proj/helperClasses.dart';
 
 class AllIssuedItems extends StatefulWidget {
 
@@ -32,6 +33,7 @@ class _AllIssuedItemsState extends State<AllIssuedItems> {
         });
 
     var data = await jsonDecode(response.body);
+    print(data);
     return data;
   }
 
@@ -40,8 +42,10 @@ class _AllIssuedItemsState extends State<AllIssuedItems> {
       return "Student";
     } else if (text == 'L') {
       return "Lab";
-    } else {
+    } else if (text == 'C'){
       return "Club";
+    } else{
+      return "Professor";
     }
   }
 

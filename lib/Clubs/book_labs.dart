@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import'package:web_proj/main.dart';
 import 'package:web_proj/Reports/StatusScreen.dart';
+import 'package:web_proj/helperClasses.dart';
 
 class Book_Labs extends StatefulWidget {
 
@@ -117,7 +118,8 @@ _FormState(this.user);
 
 TextEditingController labid = new TextEditingController();
 TextEditingController date = new TextEditingController();
-TextEditingController time = new TextEditingController();
+TextEditingController stime = new TextEditingController();
+TextEditingController etime = new TextEditingController();
 var msg = "";
 
 Future _executionStatus(result, context){
@@ -133,12 +135,15 @@ Future _submit(context) async {
   print(user.id);
   print(labid.text);
   print(date.text);
-    http.Response response = await http.post("http://labheadsbase.000webhostapp.com/booklabs.php",
+  print(etime.text);
+  print(stime.text);
+    http.Response response = await http.post("http://labheadsbase.000webhostapp.com/booklabreg.php",
     body: {
       "userid": user.id,
       "labID": labid.text,
       "date": date.text,
-      "time":time.text,
+      "start_time":stime.text,
+      "end_time":etime.text,
     });
 
     var data = response.body;
@@ -187,7 +192,7 @@ _button(text, context) => RaisedButton(
           Container(
             child: Row(
               children:[
-                Text("Lab ID",
+                Text("Lab ID: ",
                 style: TextStyle(color: Colors.blueAccent, fontSize: 16.0),),
                 SizedBox(width: 65),
                 _inputBox(context, "Enter Lab ID", labid),
@@ -198,10 +203,10 @@ _button(text, context) => RaisedButton(
           Container(
             child: Row(
               children:[
-                Text("Date",
+                Text("Date: ",
                 style: TextStyle(color: Colors.blueAccent, fontSize: 16.0),),
                 SizedBox(width: 65),
-                _inputBox(context, "Enter Date", date),
+                _inputBox(context, "Enter Date (YYYY-MM-DD)", date),
               ]
             ),
           ),
@@ -209,10 +214,21 @@ _button(text, context) => RaisedButton(
           Container(
             child: Row(
               children:[
-                Text("Time",
+                Text("Start Time: ",
                 style: TextStyle(color: Colors.blueAccent, fontSize: 16.0),),
                 SizedBox(width: 65),
-                _inputBox(context, "Enter the Time", time),
+                _inputBox(context, "Enter the Time (24 Hr Format HH:MM:SS)", stime),
+              ]
+            ),
+          ),
+          SizedBox(height: 10),
+          Container(
+            child: Row(
+              children:[
+                Text("End Time: ",
+                style: TextStyle(color: Colors.blueAccent, fontSize: 16.0),),
+                SizedBox(width: 65),
+                _inputBox(context, "Enter the Time (24 Hr Format HH:MM:SS)", etime),
               ]
             ),
           ),

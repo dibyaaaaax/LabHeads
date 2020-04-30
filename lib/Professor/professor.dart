@@ -4,25 +4,38 @@ import 'package:web_proj/Reports/requestBuy.dart';
 import 'package:web_proj/Reports/labTimings.dart';
 import 'package:web_proj/Reports/authorizedPersonnel.dart';
 import 'package:web_proj/LabManagers/addItem.dart';
+import 'package:web_proj/helperClasses.dart';
+import 'package:web_proj/LabManagers/allBorrowedItems.dart';
+import 'package:web_proj/Reports/searchResults.dart';
 
 
-class Professor extends StatelessWidget {
+// class Professor extends StatelessWidget {
 
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Professor',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: StuSearch(),
-    );
-  }
-}
+//   final User user;
 
-class StuSearch extends StatelessWidget{
+//   // In the constructor, require a Todo.
+//   Professor({Key key, @required this.user}) : super(key: key);
+
+//   // This widget is the root of your application.
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       title: 'Professor',
+//       theme: ThemeData(
+//         primarySwatch: Colors.blue,
+//         visualDensity: VisualDensity.adaptivePlatformDensity,
+//       ),
+//       home: ProfSearch(),
+//     );
+//   }
+// }
+
+class Professor extends StatelessWidget{
+
+   final User user;
+
+  // In the constructor, require a Todo.
+  Professor({Key key, @required this.user}) : super(key: key);
 
   Future navigate_back(context) async{
     Navigator.pop(context);
@@ -45,6 +58,11 @@ class StuSearch extends StatelessWidget{
     ),
 
   );
+
+  Future navigate_issuedItems(context) async{
+  Navigator.push(context, 
+  MaterialPageRoute(builder: (context) => AllBorrowedItems(user: user)));
+}
 
   _welcomeMsg(name) => Text(
     "Welcome, " + name,
@@ -74,15 +92,15 @@ class StuSearch extends StatelessWidget{
                             Container(
                               padding: EdgeInsets.only(bottom: 5.0,
                                   top: 5.0, left: 10.0),
-                              child: _welcomeMsg("Sir"),
+                              child: _welcomeMsg(user.name),
 
                             ),
                             SizedBox(width: MediaQuery.of(context).size.width*0.5,),
                             Container(
                                 child: Row(children: <Widget>[
-                                  _button("Issued Items", dummy_func, context),
+                                  _button("Issued Items", navigate_issuedItems, context),
                                   SizedBox(width: 20.0,),
-                                  _button("log Out", navigate_back, context)
+                                  _button("Log Out", navigate_back, context)
                                 ],)
                             )
                           ],),
@@ -90,7 +108,7 @@ class StuSearch extends StatelessWidget{
                       )
                   ),
 
-                  Form(),
+                  _Form(user: user),
                 ],)
             )
         )
@@ -99,19 +117,24 @@ class StuSearch extends StatelessWidget{
 
 }
 
-class Form extends StatefulWidget {
-  Form({Key key}) : super(key: key);
+class _Form extends StatefulWidget {
+  final User user;
+  _Form({Key key, @required this.user}) : super(key: key);
 
   @override
-  _FormState createState() => _FormState();
+  _FormState createState() => _FormState(user);
 }
 
-class _FormState extends State<Form> {
+class _FormState extends State<_Form> {
+   final User user;
+  _FormState(this.user);
+  
 
-  var _departments = ["Department", "CSE", "ECE", "HCI"];
-  var _labs = ["Lab", "Midas", "Shannon", "Tav"];
-  var current_dep = ["Department"];
-  var current_lab = ["Lab"];
+var _labs = ["Lab", "CSE Lab", "Shannon Lab", "Midas Lab", "Precog", "BE Lab",
+            "D&I Lab", "BioLab", "RFA Lab", "PhyLab", "DesLab", "Aurora", "TavLab"];
+var current_lab = ["Lab"];
+
+TextEditingController itemname = new TextEditingController();
 
 
 //InputNameText field
@@ -171,6 +194,12 @@ class _FormState extends State<Form> {
         MaterialPageRoute(builder: (context) => AuthorizedPersonnel()));
   }
 
+  Future navigate_searchResults(context) async{
+  Navigator.push(context, 
+  MaterialPageRoute(builder: (context) => SearchItemsStu(user: user, query: SearchParams(itemname.text, current_lab[0]))));
+}
+
+
 
   dummy_func(){
     print("I do nothing");
@@ -205,7 +234,7 @@ class _FormState extends State<Form> {
               children:[
                 _inputNameField(context, "Look for an item"),
                 SizedBox(width: 20.0,),
-                _button("Find Item", DamageReport)
+                _button("Find Item", navigate_searchResults)
 
               ]),
           Row(
@@ -214,8 +243,6 @@ class _FormState extends State<Form> {
                 Text("Search By:"),
                 SizedBox(width: 20.0,),
                 _dropdown(this.current_lab, _labs, "Labs"),
-                SizedBox(width: 20.0,),
-                _dropdown(this.current_dep, _departments, "Departments"),
 
               ]),
           SizedBox(height: 50.0,),

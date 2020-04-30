@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:web_proj/Reports/damagereport.dart';
 import 'package:web_proj/Reports/labTimings.dart';
 import 'package:web_proj/Reports/requestBuy.dart';
-import 'package:web_proj/LabManagers/allIssuedItems.dart';
+import 'package:web_proj/LabManagers/allBorrowedItems.dart';
 import 'package:http/http.dart' as http;
+import 'package:web_proj/Reports/searchResults.dart';
 import 'package:web_proj/main.dart';
+import 'package:web_proj/helperClasses.dart';
 
 
 /* class Student1 extends StatelessWidget {
@@ -54,7 +56,7 @@ class Student extends StatelessWidget{
 
   Future navigate_issuedItems(context) async{
   Navigator.push(context, 
-  MaterialPageRoute(builder: (context) => AllIssuedItems(user: user)));
+  MaterialPageRoute(builder: (context) => AllBorrowedItems(user: user)));
 }
 
   _welcomeMsg(name) => Text(
@@ -102,7 +104,7 @@ class Student extends StatelessWidget{
                   )
               ),
 
-              Form(),
+              _Form(user: user),
             ],)
           )
         )
@@ -111,25 +113,32 @@ class Student extends StatelessWidget{
 
 }
 
-class Form extends StatefulWidget {
-  Form({Key key}) : super(key: key);
+class _Form extends StatefulWidget {
+  final User user;
+  _Form({Key key, @required this.user}) : super(key: key);
 
   @override
-  _FormState createState() => _FormState();
+  _FormState createState() => _FormState(user);
 }
 
-class _FormState extends State<Form> {
+class _FormState extends State<_Form> {
+   final User user;
+  _FormState(this.user);
+  
 
-var _departments = ["Department", "CSE", "ECE", "HCI"]; 
-var _labs = ["Lab", "Midas", "Shannon", "Tav"];
-var current_dep = ["Department"];
+var _labs = ["Lab", "CSE Lab", "Shannon Lab", "Midas Lab", "Precog", "BE Lab",
+            "D&I Lab", "BioLab", "RFA Lab", "PhyLab", "DesLab", "Aurora", "TavLab"];
 var current_lab = ["Lab"];
+
+TextEditingController itemname = new TextEditingController();
 
 
 //InputNameText field
 _inputNameField(context, text) => Container(
+        
         width: MediaQuery.of(context).size.width*0.5,
         child:   TextFormField(
+        controller: itemname, 
         decoration: InputDecoration(
           labelText: text,
           fillColor: Color.fromRGBO(220, 220, 220, 1),
@@ -180,6 +189,11 @@ Future navigate_labTimings(context) async{
   MaterialPageRoute(builder: (context) => LabTimings()));
 }
 
+Future navigate_searchResults(context) async{
+  Navigator.push(context, 
+  MaterialPageRoute(builder: (context) => SearchItemsStu(user: user, query: SearchParams(itemname.text, current_lab[0]))));
+}
+
 
 _button(_text, navigateTo) => RaisedButton(
       onPressed: () {
@@ -194,6 +208,8 @@ _button(_text, navigateTo) => RaisedButton(
       ),
         
   );
+
+  
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -209,7 +225,7 @@ _button(_text, navigateTo) => RaisedButton(
               children:[
                 _inputNameField(context, "Look for an item"),
                 SizedBox(width: 20.0,),
-                _button("Find Item", DamageReport)
+                _button("Find Item", navigate_searchResults)
 
             ]),
             Row(
@@ -218,8 +234,6 @@ _button(_text, navigateTo) => RaisedButton(
                 Text("Search By:"),
                 SizedBox(width: 20.0,),
                 _dropdown(this.current_lab, _labs, "Labs"),
-                SizedBox(width: 20.0,),
-                 _dropdown(this.current_dep, _departments, "Departments"),
 
             ]),
             SizedBox(height: 50.0,),
@@ -250,3 +264,4 @@ _button(_text, navigateTo) => RaisedButton(
     );
   }
 }
+

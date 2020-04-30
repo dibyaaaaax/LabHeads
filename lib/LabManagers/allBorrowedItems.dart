@@ -3,6 +3,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import'package:web_proj/main.dart';
+import 'package:web_proj/helperClasses.dart';
 
 class AllBorrowedItems extends StatefulWidget {
 

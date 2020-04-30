@@ -2,15 +2,13 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'dart:collection';
-import 'package:web_proj/main.dart' as main;
 import 'package:web_proj/helperClasses.dart';
 
-class SearchItems extends StatefulWidget {
-  final String query;
+class SearchItemsStu extends StatefulWidget {
+  final SearchParams query;
   final User user;
 
-  SearchItems({Key key, @required this.user, @required this.query})
+  SearchItemsStu({Key key, @required this.user, @required this.query})
       : super(key: key);
 
   Future navigate_back(context) async {
@@ -18,14 +16,15 @@ class SearchItems extends StatefulWidget {
   }
 
   @override
-  _SearchItemsState createState() => _SearchItemsState(user, query);
+  _SearchItemsStuState createState() => _SearchItemsStuState(user, query);
 }
 
-class _SearchItemsState extends State<SearchItems> {
-  final String query;
+class _SearchItemsStuState extends State<SearchItemsStu> {
+  final SearchParams query;
   final User user;
+
   bool _autoValidate = false;
-  _SearchItemsState(this.user, this.query);
+  _SearchItemsStuState(this.user, this.query);
   ItemObject selectedObj;
   bool isSelected = false;
   final _quantKey = GlobalKey<FormState>();
@@ -35,10 +34,15 @@ class _SearchItemsState extends State<SearchItems> {
 
   Future _searchResult() async {
     print("seareching");
-    print(query);
+    print(query.labname);
+    print(query.itemname);
+    if (query.labname == "Lab"){
+      query.labname = "";
+    }
     var response = await http
-        .post("http://labheadsbase.000webhostapp.com/searchItems.php", body: {
-      "searchQuery": query,
+        .post("http://labheadsbase.000webhostapp.com/searchItemsStu.php", body: {
+      "searchQuery": query.itemname,
+      "lab": query.labname,
     });
 
     var data = await jsonDecode(response.body);
@@ -115,33 +119,32 @@ class _SearchItemsState extends State<SearchItems> {
   }
 
   SingleChildScrollView _parseDataIntoDataTable() {
-    print(allItems);
+
     return SingleChildScrollView(
-        scrollDirection: Axis.vertical,
         child: DataTable(
-          columns: [
-            DataColumn(label: Text("Lab Name")),
-            DataColumn(label: Text("Item Name")),
-            DataColumn(label: Text("Quantity"), numeric: true),
-            DataColumn(label: Text("Item ID")),
-            DataColumn(label: Text("Lab ID")),
-          ],
-          rows: allItems
-              .map((item) => DataRow(
-                    selected: selectedItems.contains(_parseIndItem(item)),
-                    onSelectChanged: (b) {
-                      _onSelectedRow(b, item);
-                    },
-                    cells: <DataCell>[
-                      DataCell(Text(item.labName)),
-                      DataCell(Text(item.itemName)),
-                      DataCell(Text(item.quant)),
-                      DataCell(Text(item.itemId)),
-                      DataCell(Text(item.labId)),
-                    ],
-                  ))
-              .toList(),
-        ));
+      columns: [
+        DataColumn(label: Text("Lab Name")),
+        DataColumn(label: Text("Item Name")),
+        DataColumn(label: Text("Quantity"), numeric: true),
+        DataColumn(label: Text("Item ID")),
+        DataColumn(label: Text("Lab ID")),
+      ],
+      rows: allItems
+          .map((item) => DataRow(
+                selected: selectedItems.contains(_parseIndItem(item)),
+                onSelectChanged: (b) {
+                  _onSelectedRow(b, item);
+                },
+                cells: <DataCell>[
+                  DataCell(Text(item.labName)),
+                  DataCell(Text(item.itemName)),
+                  DataCell(Text(item.quant)),
+                  DataCell(Text(item.itemId)),
+                  DataCell(Text(item.labId)),
+                ],
+              ))
+          .toList(),
+    ));
   }
 
   void _validateInputs() {

@@ -6,6 +6,7 @@ import 'package:web_proj/LabManagers/searchItems.dart';
 import 'package:web_proj/LabManagers/showSuggestions.dart';
 import 'package:web_proj/LabManagers/labBookings.dart';
 import 'package:web_proj/main.dart';
+import 'package:web_proj/helperClasses.dart';
 
 class LabManagers extends StatelessWidget {
   // final String name;
